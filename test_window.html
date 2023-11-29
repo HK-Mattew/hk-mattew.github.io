@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <button class="openWindow">Open Window</button>
+        <div class="status">None</div>
+    </div>
+
+
+    <script>
+        document.getElementsByClassName('openWindow')[0].addEventListener(
+            'click',
+            function(event){
+                var url = 'https://example.com/'
+                var divStatus = document.getElementsByClassName('status')[0];
+                divStatus.innerHTML = 'Openning Window...';
+                var windowOpened = window.open(url);
+                divStatus.innerHTML = 'Window Open.';
+
+
+
+                const interval = setInterval(() => {
+                    if (windowOpened.closed) {
+                        clearInterval(interval);
+                        divStatus.innerHTML = 'Window Closed';
+                        // window.location.reload();
+                    }
+                }, 500);
+
+            }
+        );
+    </script>
+</body>
+</html>
