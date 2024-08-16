@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exemplo</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <button id="blurButton">Perder Foco da Janela</button>
@@ -12,6 +13,7 @@
         document.getElementById('blurButton').addEventListener('click', function() {
             // Perde o foco da janela
             window.close();
+            window.Telegram.WebApp.close();
         });
     </script>
 </body>
