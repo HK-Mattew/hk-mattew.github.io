@@ -12,7 +12,8 @@
     <script>
         document.getElementById('blurButton').addEventListener('click', function() {
             // Perde o foco da janela
-            window.Telegram.WebApp.isExpanded = false;
+            window.Telegram.WebApp.showAlert("hi");
+            window.Telegram.WebApp.expand();
             // window.Telegram.WebApp.close();
         });
     </script>
