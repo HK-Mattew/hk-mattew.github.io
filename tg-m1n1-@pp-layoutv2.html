@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding-bottom: 60px; /* Espaço para a navbar inferior */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .section.active {
+            display: flex;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+        .icon-section {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .navbar-bottom {
+            background: linear-gradient(135deg, #42a5f5, #478ed1);
+            color: white;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-nav .nav-link {
+            text-align: center;
+            font-size: 14px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .nav-link.active, .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            transform: scale(1.05);
+        }
+        .dark-mode-btn {
+            position: fixed;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: #4a90e2;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.2s ease;
+            z-index: 1000;
+        }
+        .dark-mode-btn:hover {
+            color: #1f78d1;
+            transform: scale(1.1);
+        }
+        .dark-mode-btn:active {
+            transform: scale(1);
+        }
+        /* Estilo do dropdown */
+        .dropdown-menu {
+            background: linear-gradient(90deg, #4a90e2, #56cfe1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease;
+        }
+        .dropdown-item {
+            color: white;
+            font-weight: 500;
+            padding: 12px 20px;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #e6e6e6;
+            transform: scale(1.05);
+        }
+        /* Animações */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Modo escuro */
+        body.dark-mode {
+            background: #181818;
+            color: #f5f5f5;
+        }
+        body.dark-mode .navbar-bottom {
+            background: linear-gradient(135deg, #1f1f1f, #343a40);
+        }
+        body.dark-mode .section {
+            background: #212121;
+            color: #f5f5f5;
+        }
+        body.dark-mode .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Botão de Modo Escuro -->
+    <button class="dark-mode-btn" onclick="toggleDarkMode()">
+        <i class="bi bi-moon-fill"></i>
+    </button>
+
+    <!-- Seções -->
+    <div id="home" class="section active bg-primary text-white">
+        <div>
+            <i class="bi bi-house-door-fill icon-section"></i>
+            <h1>Home</h1>
+            <p>Carregando...</p>
+        </div>
+    </div>
+    <div id="deposit" class="section bg-light">
+        <div>
+            <i class="bi bi-wallet-fill icon-section"></i>
+            <h1>Depósito</h1>
+            <p>Carregando...</p>
+        </div>
+    </div>
+    <div id="saque" class="section bg-secondary text-white">
+        <div>
+            <i class="bi bi-cash-stack icon-section"></i>
+            <h1>Saque</h1>
+            <p>Carregando...</p>
+        </div>
+    </div>
+    <div id="future1" class="section bg-success text-white">
+        <div>
+            <i class="bi bi-lightbulb-fill icon-section"></i>
+            <h1>Seção Futuro 1</h1>
+            <p>Carregando conteúdo do futuro...</p>
+        </div>
+    </div>
+    <div id="future2" class="section bg-info text-white">
+        <div>
+            <i class="bi bi-gear-fill icon-section"></i>
+            <h1>Seção Futuro 2</h1>
+            <p>Carregando conteúdo do futuro...</p>
+        </div>
+    </div>
+
+    <!-- Navbar inferior -->
+    <nav class="navbar navbar-expand navbar-dark fixed-bottom navbar-bottom">
+        <div class="container-fluid">
+            <ul class="navbar-nav justify-content-around w-100">
+                <li class="nav-item">
+                    <a class="nav-link" href="#home" onclick="showSection('home')">
+                        <i class="bi bi-house-door"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#deposit" onclick="showSection('deposit')">
+                        <i class="bi bi-wallet"></i>
+                        <span>Depósito</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#saque" onclick="showSection('saque')">
+                        <i class="bi bi-cash"></i>
+                        <span>Saque</span>
+                    </a>
+                </li>
+                <li class="nav-item dropup">
+                    <a class="nav-link dropdown-toggle" id="futureDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots"></i>
+                        <span>Mais</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="futureDropdown">
+                        <li><a class="dropdown-item" href="#future1" onclick="showSection('future1')">Futuro 1</a></li>
+                        <li><a class="dropdown-item" href="#future2" onclick="showSection('future2')">Futuro 2</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Card de exemplo -->
+    <div class="container mt-4">
+        <div class="card shadow-sm my-4">
+            <div class="card-body">
+                <h5 class="card-title">Título do Card</h5>
+                <p class="card-text">Este é um exemplo de card do Bootstrap 5.</p>
+                <a href="#" class="btn btn-primary">Saiba mais</a>
+            </div>
+        </div>
+    </div>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showSection(sectionId) {
+            $('.section').removeClass('active');
+            $(`#${sectionId}`).addClass('active');
+            $('.nav-link, .dropdown-item').removeClass('active');
+            $(`[href="#${sectionId}"]`).addClass('active');
+            loadSectionData(sectionId);
+        }
+
+        function loadSectionData(sectionId) {
+            const apiData = {
+                home: { title: "Bem-vindo à Home", content: "Explore nossa plataforma incrível." },
+                deposit: { title: "Área de Depósito", content: "Adicione fundos de maneira segura." },
+                saque: { title: "Área de Saque", content: "Retire seus fundos rapidamente." },
+                future1: { title: "Área Futuro 1", content: "Exploração de novas funcionalidades." },
+                future2: { title: "Área Futuro 2", content: "Configurações e opções avançadas." },
+            };
+            setTimeout(() => {
+                const data = apiData[sectionId];
+                $(`#${sectionId} h1`).text(data.title);
+                $(`#${sectionId} p`).text(data.content);
+            }, 500);
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        $(document).ready(function () {
+            loadSectionData('home'); // Carrega os dados iniciais da seção "home"
+        });
+    </script>
+</body>
+</html>
