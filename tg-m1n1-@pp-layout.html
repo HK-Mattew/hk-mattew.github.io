@@ -112,9 +112,32 @@
         body.dark-mode .dark-mode-btn {
             color: #f8f9fa;
         }
+      /* Estilo da imagem de perfil */
+        .user-profile {
+            position: fixed;
+            top: 10px;
+            left: 15px;
+            z-index: 1000;
+        }
+        .user-profile img {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        .user-profile .user-name {
+            left: 5em;
+        }
     </style>
 </head>
 <body>
+    <!-- Imagem de Perfil a -->
+    <div class="user-profile">
+      <img src="https://i.imgur.com/rkmmDFJ.jpeg" alt="Profile Picture">
+      <span class="user-name">Your Name</span>
+    </div>
+
     <!-- Botão de Modo Escuro -->
     <button class="dark-mode-btn" onclick="toggleDarkMode()">
         <i class="bi bi-moon-fill"></i>
