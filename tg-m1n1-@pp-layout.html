@@ -324,28 +324,38 @@
 
             // carrega informações
             var user_name = 'Your Name';
+            var user_photo = null;
             if(window.Telegram.WebApp.initDataUnsafe.user){
+                // Load user name
                 user_name = window.Telegram.WebApp.initDataUnsafe.user.first_name;
                 if(window.Telegram.WebApp.initDataUnsafe.user.last_name){
                     user_name += (' ' + window.Telegram.WebApp.initDataUnsafe.user.last_name)
                 };
+
+                // Load user photo
+                if(window.Telegram.WebApp.initDataUnsafe.user.photo_url){
+                    user_photo = window.Telegram.WebApp.initDataUnsafe.user.photo_url;
+                };
             };
+
             const userData = {
-                // profilePicture: "https://i.imgur.com/rkmmDFJ.jpeg",
+                profilePicture: user_photo,
                 userName: user_name
             };
 
             // Simula um carregamento com atraso (para testar)
             setTimeout(() => {
                 // Atualiza a imagem do perfil
-                // const profileImage = document.getElementById('profilePicture');
-                // profileImage.src = userData.profilePicture; // Define a imagem real
+                if(userData.profilePicture){
+                    const profileImage = document.getElementById('profilePicture');
+                    profileImage.src = userData.profilePicture; // Define a imagem real
+                };
 
                 // Atualiza o nome do usuário
                 const userName = document.getElementById('userName');
                 userName.textContent = userData.userName;
                 userName.classList.remove('placeholder', 'placeholder-glow'); // Remove o estilo de placeholder
-            }, 1500); // 1.5 segundos de atraso
+            }, 1100); // 1.1 segundos de atraso
           
         });
     </script>
