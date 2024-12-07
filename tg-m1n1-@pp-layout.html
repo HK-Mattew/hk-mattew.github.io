@@ -323,9 +323,16 @@
             loadSectionData('home'); // Carrega os dados iniciais da seção "home"
 
             // carrega informações
+            var user_name = 'Your Name';
+            if(window.Telegram.WebApp.initDataUnsafe.user){
+                user_name = window.Telegram.WebApp.initDataUnsafe.user.first_name;
+                if(window.Telegram.WebApp.initDataUnsafe.user.last_name){
+                    user_name += (' ' + window.Telegram.WebApp.initDataUnsafe.user.last_name)
+                };
+            };
             const userData = {
                 // profilePicture: "https://i.imgur.com/rkmmDFJ.jpeg",
-                userName: window.Telegram.WebApp.initDataUnsafe.user.first_name
+                userName: user_name
             };
 
             // Simula um carregamento com atraso (para testar)
