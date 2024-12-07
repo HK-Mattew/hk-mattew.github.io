@@ -169,7 +169,7 @@
 <div class="user-profile dropdown" title="Visualizar perfil ou configurações">
     <img 
         id="profilePicture" 
-        class="rounded-circle"
+        class="rounded-circle placeholder-glow placeholder"
         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAAA3CAQAAAAC0hrNAAAAMElEQVR42u3NMQ0AAAwDoNW/6Ylo0gsMkJuKTqfT6XQ6nU6n0+l0Op1Op9PpdLrCA7OzADgBSOVWAAAAAElFTkSuQmCC"
         alt="Profile Picture" 
         data-bs-toggle="dropdown" 
@@ -323,7 +323,7 @@
             loadSectionData('home'); // Carrega os dados iniciais da seção "home"
 
             // carrega informações
-            var user_name = 'Your Name';
+            var user_name = null;
             var user_photo = null;
             if(window.Telegram.WebApp.initDataUnsafe.user){
                 // Load user name
@@ -349,12 +349,15 @@
                 if(userData.profilePicture){
                     const profileImage = document.getElementById('profilePicture');
                     profileImage.src = userData.profilePicture; // Define a imagem real
+                    profileImage.classList.remove('placeholder', 'placeholder-glow'); // Remove o estilo de placeholder
                 };
 
                 // Atualiza o nome do usuário
-                const userName = document.getElementById('userName');
-                userName.textContent = userData.userName;
-                userName.classList.remove('placeholder', 'placeholder-glow'); // Remove o estilo de placeholder
+                if(userData.userName){
+                    const userName = document.getElementById('userName');
+                    userName.textContent = userData.userName;
+                    userName.classList.remove('placeholder', 'placeholder-glow'); // Remove o estilo de placeholder
+                };
             }, 1100); // 1.1 segundos de atraso
           
         });
