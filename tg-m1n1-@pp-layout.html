@@ -183,19 +183,19 @@
         <li>
             <a class="dropdown-item d-flex align-items-center" href="#">
                 <i class="bi bi-person-circle me-2"></i>
-                <span>Perfil</span>
+                <span>Profile</span>
             </a>
         </li>
         <li>
             <a class="dropdown-item d-flex align-items-center" href="#">
                 <i class="bi bi-gear-fill me-2"></i>
-                <span>Configurações</span>
+                <span>Settings</span>
             </a>
         </li>
         <li>
             <a class="dropdown-item d-flex align-items-center" href="#">
                 <i class="bi bi-box-arrow-right me-2"></i>
-                <span>Sair</span>
+                <span class="text-danger">Exit</span>
             </a>
         </li>
     </ul>
@@ -217,35 +217,35 @@
         <div>
             <i class="bi bi-house-door-fill icon-section"></i>
             <h1>Home</h1>
-            <p>Carregando...</p>
+            <p>Loading...</p>
         </div>
     </div>
     <div id="deposit" class="section bg-light">
         <div>
             <i class="bi bi-wallet-fill icon-section"></i>
-            <h1>Depósito</h1>
-            <p>Carregando...</p>
+            <h1>Deposit</h1>
+            <p>Loading...</p>
         </div>
     </div>
     <div id="saque" class="section bg-secondary text-white">
         <div>
             <i class="bi bi-cash-stack icon-section"></i>
-            <h1>Saque</h1>
-            <p>Carregando...</p>
+            <h1>Withdraw</h1>
+            <p>Loading...</p>
         </div>
     </div>
     <div id="future1" class="section bg-success text-white">
         <div>
             <i class="bi bi-lightbulb-fill icon-section"></i>
-            <h1>Seção Futuro 1</h1>
-            <p>Carregando conteúdo do futuro...</p>
+            <h1>Section Future 1</h1>
+            <p>Loading content from the future...</p>
         </div>
     </div>
     <div id="future2" class="section bg-info text-white">
         <div>
             <i class="bi bi-gear-fill icon-section"></i>
-            <h1>Seção Futuro 2</h1>
-            <p>Carregando conteúdo do futuro...</p>
+            <h1>Section Future 2</h1>
+            <p>Loading content from the future...</p>
         </div>
     </div>
 
@@ -262,23 +262,23 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#deposit" onclick="showSection('deposit')">
                         <i class="bi bi-wallet"></i>
-                        <span>Depósito</span>
+                        <span>Deposit</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#saque" onclick="showSection('saque')">
                         <i class="bi bi-cash"></i>
-                        <span>Saque</span>
+                        <span>Withdraw</span>
                     </a>
                 </li>
                 <li class="nav-item dropup">
                     <a class="nav-link dropdown-toggle" id="futureDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots"></i>
-                        <span>Mais</span>
+                        <span>More</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="futureDropdown">
-                        <li><a class="dropdown-item" href="#future1" onclick="showSection('future1')">Futuro 1</a></li>
-                        <li><a class="dropdown-item" href="#future2" onclick="showSection('future2')">Futuro 2</a></li>
+                        <li><a class="dropdown-item" href="#future1" onclick="showSection('future1')">Future 1</a></li>
+                        <li><a class="dropdown-item" href="#future2" onclick="showSection('future2')">Future 2</a></li>
                     </ul>
                 </li>
             </ul>
@@ -299,11 +299,11 @@
 
         function loadSectionData(sectionId) {
             const apiData = {
-                home: { title: "Bem-vindo à Home", content: "Explore nossa plataforma incrível." },
-                deposit: { title: "Área de Depósito", content: "Adicione fundos de maneira segura." },
-                saque: { title: "Área de Saque", content: "Retire seus fundos rapidamente." },
-                future1: { title: "Área Futuro 1", content: "Exploração de novas funcionalidades." },
-                future2: { title: "Área Futuro 2", content: "Configurações e opções avançadas." },
+                home: { title: "Welcome to Home", content: "Explore our amazing platform." },
+                deposit: { title: "Deposit Area", content: "Add funds securely." },
+                saque: { title: "Withdrawal Area", content: "Withdraw your funds quickly." },
+                future1: { title: "Future Area 1", content: "Exploration of new features." },
+                future2: { title: "Future Area 2", content: "Advanced settings and options." },
             };
             setTimeout(() => {
                 const data = apiData[sectionId];
