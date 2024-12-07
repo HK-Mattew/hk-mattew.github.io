@@ -126,17 +126,69 @@
             object-fit: cover;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
+        .user-profile img:hover {
+            transform: scale(1.1);
+            transition: transform 0.3s ease;
+        }
         .user-profile .user-name {
-            left: 5em;
+            font-size: 16px;
+            font-weight: 500; /* Um pouco mais forte para destaque */
+           color: #343a40; /* Cinza escuro */
+            margin-left: 10px; /* Espaço entre a imagem e o nome */
+        }
+        .user-profile .user-name:hover {
+            color: #1f78d1;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .user-profile .dropdown-menu {
+            position: absolute;
+            top: 60px; /* Abaixo da imagem */
+            left: 10px;
+            z-index: 1050;
+            background: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .user-profile .dropdown-item {
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a90e2;
+        }
+        .user-profile .dropdown-item:hover {
+            background: #56cfe1;
+            color: white;
         }
     </style>
 </head>
 <body>
     <!-- Imagem de Perfil a -->
-    <div class="user-profile">
+    <div class="user-profile dropdown" title="Visualizar perfil ou configurações">
+    <img 
+        id="profilePicture" 
+        class="rounded-circle"
+        src="https://i.imgur.com/rkmmDFJ.jpeg"
+        alt="Profile Picture" 
+        data-bs-toggle="dropdown" 
+        aria-expanded="false"
+    >
+    <span 
+        class="user-name placeholder-glow placeholder ms-2" 
+        id="userName"
+        data-bs-toggle="dropdown" 
+        aria-expanded="false">
+        ...........................
+    </span>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Perfil</a></li>
+        <li><a class="dropdown-item" href="#">Configurações</a></li>
+        <li><a class="dropdown-item" href="#">Sair</a></li>
+    </ul>
+</div>
+<!--     <div class="user-profile">
       <img src="https://i.imgur.com/rkmmDFJ.jpeg" alt="Profile Picture">
       <span class="user-name">Your Name</span>
-    </div>
+    </div> -->
 
     <!-- Botão de Modo Escuro -->
     <button class="dark-mode-btn" onclick="toggleDarkMode()">
@@ -249,6 +301,25 @@
 
         $(document).ready(function () {
             loadSectionData('home'); // Carrega os dados iniciais da seção "home"
+
+            // carrega informações
+            const userData = {
+                // profilePicture: "https://i.imgur.com/rkmmDFJ.jpeg",
+                userName: "Your Name"
+            };
+
+            // Simula um carregamento com atraso (para testar)
+            setTimeout(() => {
+                // Atualiza a imagem do perfil
+                // const profileImage = document.getElementById('profilePicture');
+                // profileImage.src = userData.profilePicture; // Define a imagem real
+
+                // Atualiza o nome do usuário
+                const userName = document.getElementById('userName');
+                userName.textContent = userData.userName;
+                userName.classList.remove('placeholder', 'placeholder-glow'); // Remove o estilo de placeholder
+            }, 1500); // 1.5 segundos de atraso
+          
         });
     </script>
 </body>
