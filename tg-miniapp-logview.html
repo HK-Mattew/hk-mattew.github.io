@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miniapp Logs Viewer</title>
+    <!-- Incluindo o CSS do Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Ajuste do z-index para garantir que o modal apareça acima do backdrop */
+        .modal-backdrop {
+            z-index: 1040 !important; /* Padrão do Bootstrap */
+        }
+
+        .modal {
+            z-index: 1050 !important; /* Garante que o modal fique acima do backdrop */
+        }
+
+        /* Estilos personalizados mínimos para centralizar o modal e ajustar as margens */
+        #log-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 1050;
+        }
+
+        /* Estilo do botão de fechar */
+        #close-logs {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /* Separador entre os logs e requisições */
+        .separator {
+            margin: 20px 0;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body class="container py-4">
+    <h1>Miniapp Logs Viewer</h1>
+    <p>Use the button below to view the captured console and request logs.</p>
+
+    <!-- Botão para abrir os logs -->
+    <button id="show-logs" class="btn btn-success">View Logs</button>
+
+    <!-- Modal para exibir os logs -->
+    <div id="log-modal" class="modal fade" tabindex="-1" aria-labelledby="logModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logModalLabel">Captured Logs</h5>
+                    <button id="close-logs" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="log-content" class="bg-light p-3 rounded" style="font-family: 'Courier New', Courier, monospace; white-space: pre-wrap; word-wrap: break-word; max-height: 70vh; overflow-y: auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Incluindo o JS do Bootstrap 5 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Arrays para armazenar os logs
+        const logs = [];
+        const requests = [];
+
+        // Sobrescrevendo os métodos do console
+        ['log', 'warn', 'error'].forEach((method) => {
+            const original = console[method];
+            console[method] = (...args) => {
+                // Adiciona o log ao array
+                logs.push({ type: method, message: args.join(' ') });
+                // Chama o método original
+                original.apply(console, args);
+            };
+        });
+
+        // Interceptar fetch para registrar requisições e respostas
+        const originalFetch = window.fetch;
+        window.fetch = async (input, init) => {
+            const startTime = Date.now();
+            try {
+                const response = await originalFetch(input, init);
+                const duration = Date.now() - startTime;
+
+                // Clone da resposta para ler o corpo sem consumir o original
+                const clonedResponse = response.clone();
+                const responseBody = await clonedResponse.text();
+
+                // Armazena a requisição no log
+                requests.push({
+                    url: input,
+                    method: init?.method || 'GET',
+                    status: response.status,
+                    duration: `${duration}ms`,
+                    requestBody: init?.body || null,
+                    responseBody: responseBody || 'Empty Response',
+                });
+
+                return response;
+            } catch (error) {
+                requests.push({
+                    url: input,
+                    method: init?.method || 'GET',
+                    status: 'ERROR',
+                    duration: `${Date.now() - startTime}ms`,
+                    error: error.message,
+                });
+                throw error;
+            }
+        };
+
+        // Lógica para abrir o modal e exibir os logs
+        document.getElementById('show-logs').addEventListener('click', () => {
+            const logModal = new bootstrap.Modal(document.getElementById('log-modal'));
+            const logContent = document.getElementById('log-content');
+
+            // Gera o conteúdo dos logs
+            const logMessages = logs
+                .map(log => `[${log.type.toUpperCase()}] ${log.message}`)
+                .join('\n');
+
+            const requestMessages = requests
+                .map(req => 
+                    `[REQUEST] ${req.method} ${req.url} (Status: ${req.status}, Duration: ${req.duration})\n` +
+                    `Request Body: ${req.requestBody || 'N/A'}\n` +
+                    `Response Body: ${req.responseBody || 'N/A'}`
+                )
+                .join('\n\n');
+
+            logContent.innerHTML = `<pre>${logMessages}</pre>`;
+
+            // Adiciona um separador entre os logs e as requisições
+            logContent.innerHTML += `<div class="separator"></div>`;
+            logContent.innerHTML += `<pre>${requestMessages}</pre>`;
+
+            logModal.show(); // Exibe o modal
+        });
+
+        // Exemplos de logs para testar
+        console.log("Test log 1");
+        console.warn("Test warning");
+        console.error("Test error");
+
+        // Exemplo de requisição para testar
+        fetch("https://jsonplaceholder.typicode.com/posts", {
+            method: "POST",
+            body: JSON.stringify({ title: "foo", body: "bar", userId: 1 }),
+            headers: { "Content-type": "application/json; charset=UTF-8" }
+        });
+    </script>
+</body>
+</html>
