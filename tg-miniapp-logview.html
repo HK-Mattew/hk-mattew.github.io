@@ -4,49 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Miniapp Logs Viewer</title>
-    <!-- Incluindo o CSS do Bootstrap 5 -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* Ajuste do z-index para garantir que o modal apareça acima do backdrop */
-        .modal-backdrop {
-            z-index: 1040 !important; /* Padrão do Bootstrap */
-        }
-
-        .modal {
-            z-index: 1050 !important; /* Garante que o modal fique acima do backdrop */
-        }
-
-        /* Estilo para o conteúdo das abas */
         .log-content {
             font-family: 'Courier New', Courier, monospace;
             white-space: pre-wrap;
             word-wrap: break-word;
-            max-height: 70vh;
+            max-height: 50vh;
             overflow-y: auto;
             background-color: #f8f9fa;
-            padding: 15px;
+            padding: 10px;
             border-radius: 5px;
         }
+
+        .log-item.log { color: black; }
+        .log-item.warn { color: orange; }
+        .log-item.error { color: red; }
     </style>
 </head>
 <body class="container py-4">
     <h1>Miniapp Logs Viewer</h1>
-    <p>Use the button below to view the captured console and request logs.</p>
+    <p>Use the button below to view logs and requests captured in your application.</p>
 
-    <!-- Botão para abrir os logs -->
-    <button id="show-logs" class="btn btn-success">View Logs</button>
+    <!-- Buttons -->
+    <button id="show-logs" class="btn btn-success mb-3">View Logs</button>
 
-    <!-- Modal para exibir os logs -->
+    <!-- Modal -->
     <div id="log-modal" class="modal fade" tabindex="-1" aria-labelledby="logModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="logModalLabel">Captured Logs</h5>
-                    <button id="close-logs" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Abas para alternar entre Logs e Requests -->
+                    <!-- Tabs -->
                     <ul class="nav nav-tabs" id="logTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs" type="button" role="tab" aria-controls="logs" aria-selected="true">Logs</button>
@@ -56,13 +50,33 @@
                         </li>
                     </ul>
                     <div class="tab-content mt-3" id="logTabsContent">
-                        <!-- Conteúdo da aba Logs -->
+                        <!-- Logs Section -->
                         <div class="tab-pane fade show active" id="logs" role="tabpanel" aria-labelledby="logs-tab">
+                            <div class="d-flex justify-content-between mb-2">
+                                <input id="search-logs" class="form-control me-2" type="text" placeholder="Search logs...">
+                                <button id="clear-logs" class="btn btn-danger">Clear Logs</button>
+                                <button id="export-logs" class="btn btn-primary ms-2">Export Logs</button>
+                            </div>
                             <div id="log-content" class="log-content"></div>
                         </div>
-                        <!-- Conteúdo da aba Requests -->
+                        <!-- Requests Section -->
                         <div class="tab-pane fade" id="requests" role="tabpanel" aria-labelledby="requests-tab">
-                            <div id="request-content" class="log-content"></div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <input id="search-requests" class="form-control me-2" type="text" placeholder="Search requests...">
+                                <button id="clear-requests" class="btn btn-danger">Clear Requests</button>
+                                <button id="export-requests" class="btn btn-primary ms-2">Export Requests</button>
+                            </div>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>URL</th>
+                                        <th>Status</th>
+                                        <th>Duration</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="request-content"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -70,90 +84,121 @@
         </div>
     </div>
 
-    <!-- Incluindo o JS do Bootstrap 5 -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Arrays para armazenar os logs
         const logs = [];
         const requests = [];
 
-        // Sobrescrevendo os métodos do console
+        // Override console methods
         ['log', 'warn', 'error'].forEach((method) => {
             const original = console[method];
             console[method] = (...args) => {
-                // Adiciona o log ao array
                 logs.push({ type: method, message: args.join(' ') });
-                // Chama o método original
                 original.apply(console, args);
             };
         });
 
-        // Interceptar fetch para registrar requisições e respostas
+        // Intercept fetch
         const originalFetch = window.fetch;
         window.fetch = async (input, init) => {
             const startTime = Date.now();
             try {
                 const response = await originalFetch(input, init);
-                const duration = Date.now() - startTime;
-
-                // Clone da resposta para ler o corpo sem consumir o original
+                const duration = `${Date.now() - startTime}ms`;
                 const clonedResponse = response.clone();
                 const responseBody = await clonedResponse.text();
 
-                // Armazena a requisição no log
                 requests.push({
-                    url: input,
                     method: init?.method || 'GET',
+                    url: input,
                     status: response.status,
-                    duration: `${duration}ms`,
-                    requestBody: init?.body || null,
-                    responseBody: responseBody || 'Empty Response',
+                    duration,
+                    responseBody
                 });
 
                 return response;
             } catch (error) {
                 requests.push({
-                    url: input,
                     method: init?.method || 'GET',
+                    url: input,
                     status: 'ERROR',
                     duration: `${Date.now() - startTime}ms`,
-                    error: error.message,
+                    error: error.message
                 });
                 throw error;
             }
         };
 
-        // Lógica para abrir o modal e exibir os logs
-        document.getElementById('show-logs').addEventListener('click', () => {
-            const logModal = new bootstrap.Modal(document.getElementById('log-modal'));
+        // Update log content
+        const updateLogs = () => {
             const logContent = document.getElementById('log-content');
+            const search = document.getElementById('search-logs').value.toLowerCase();
+            logContent.innerHTML = logs
+                .filter(log => log.message.toLowerCase().includes(search))
+                .map(log => `<div class="log-item ${log.type}">[${log.type.toUpperCase()}] ${log.message}</div>`)
+                .join('');
+        };
+
+        // Update request content
+        const updateRequests = () => {
             const requestContent = document.getElementById('request-content');
+            const search = document.getElementById('search-requests').value.toLowerCase();
+            requestContent.innerHTML = requests
+                .filter(req => req.url.toLowerCase().includes(search))
+                .map(req => `
+                    <tr>
+                        <td>${req.method}</td>
+                        <td>${req.url}</td>
+                        <td>${req.status}</td>
+                        <td>${req.duration}</td>
+                    </tr>
+                `)
+                .join('');
+        };
 
-            // Gera o conteúdo dos logs
-            const logMessages = logs
-                .map(log => `[${log.type.toUpperCase()}] ${log.message}`)
-                .join('\n');
-
-            const requestMessages = requests
-                .map(req => 
-                    `[REQUEST] ${req.method} ${req.url} (Status: ${req.status}, Duration: ${req.duration})\n` +
-                    `Request Body: ${req.requestBody || 'N/A'}\n` +
-                    `Response Body: ${req.responseBody || 'N/A'}`
-                )
-                .join('\n\n');
-
-            logContent.innerHTML = `<pre>${logMessages}</pre>`;
-            requestContent.innerHTML = `<pre>${requestMessages}</pre>`;
-
-            logModal.show(); // Exibe o modal
+        // Event listeners
+        document.getElementById('show-logs').addEventListener('click', () => {
+            updateLogs();
+            updateRequests();
+            const logModal = new bootstrap.Modal(document.getElementById('log-modal'));
+            logModal.show();
         });
 
-        // Exemplos de logs para testar
-        console.log("Test log 1");
+        document.getElementById('search-logs').addEventListener('input', updateLogs);
+        document.getElementById('search-requests').addEventListener('input', updateRequests);
+
+        document.getElementById('clear-logs').addEventListener('click', () => {
+            logs.length = 0;
+            updateLogs();
+        });
+
+        document.getElementById('clear-requests').addEventListener('click', () => {
+            requests.length = 0;
+            updateRequests();
+        });
+
+        document.getElementById('export-logs').addEventListener('click', () => {
+            const blob = new Blob([JSON.stringify(logs, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'logs.json';
+            link.click();
+        });
+
+        document.getElementById('export-requests').addEventListener('click', () => {
+            const blob = new Blob([JSON.stringify(requests, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'requests.json';
+            link.click();
+        });
+
+        // Example logs and requests
+        console.log("Test log");
         console.warn("Test warning");
         console.error("Test error");
 
-        // Exemplo de requisição para testar
         fetch("https://jsonplaceholder.typicode.com/posts", {
             method: "POST",
             body: JSON.stringify({ title: "foo", body: "bar", userId: 1 }),
