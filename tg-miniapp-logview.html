@@ -46,7 +46,7 @@
             <h5 class="modal-title">Raw Request Data</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body"></div>
+          <div class="modal-body bg-dark text-white p-3 rounded" style="font-family: monospace; white-space: pre-wrap;"></div>
         </div>
       </div>
     </div>
@@ -263,7 +263,7 @@
             const modalId = 'log-viewer-raw-request-data-modal';
             const requestRawData = element.getAttribute('data-raw-request-data');
 
-            document.querySelector(`#${modalId} .modal-body`).innerText = requestRawData;
+            document.querySelector(`#${modalId} .modal-body`).innerText = JSON.stringify(JSON.parse(requestRawData), null, 2);;
             const requestRawDataModal = new bootstrap.Modal(document.getElementById(modalId));
             requestRawDataModal.show();
         };
