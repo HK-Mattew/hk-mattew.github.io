@@ -40,13 +40,15 @@
 
     <!-- Show raw request data Modal -->
     <div id="log-viewer-raw-request-data-modal" class="modal" tabindex="-1" style="z-index: 2000;">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Raw Request Data</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body bg-dark text-white p-3 rounded" style="font-family: monospace; white-space: pre-wrap;"></div>
+          <div class="modal-body bg-dark text-white p-3 rounded" style="font-family: monospace; white-space: pre-wrap; overflow-x: auto; max-height: 400px;">
+            <!-- JSON here -->
+          </div>
         </div>
       </div>
     </div>
