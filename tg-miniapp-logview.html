@@ -116,6 +116,7 @@
                 });
 
                 requests.push({
+                    intercept: 'fetch',
                     method: init.method || 'GET',
                     url: input,
                     status: response.status,
@@ -129,6 +130,7 @@
                 return response;
             } catch (error) {
                 requests.push({
+                    intercept: 'fetch',
                     method: init.method || 'GET',
                     url: input,
                     status: 'ERROR',
@@ -158,6 +160,7 @@
                     const responseHeaders = this.getAllResponseHeaders();
                     const responseBody = this.responseText;
                     requests.push({
+                        intercept: 'xhr',
                         method: this._method,
                         url: this._url,
                         status: this.status,
