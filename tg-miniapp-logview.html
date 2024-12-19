@@ -91,7 +91,7 @@
                                             <th>URL</th>
                                             <th>Status</th>
                                             <th>Duration</th>
-                                            <th>Actions</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="request-content"></tbody>
@@ -230,7 +230,7 @@
                         <td>${req.status}</td>
                         <td>${req.duration}</td>
                         <td>
-                            <button data-raw-request-data="${JSON.stringify(req)}" onclick="onClickViewRawRequestDataModal(this);">View Raw Data</button>
+                            <button data-raw-request-data="${JSON.stringify(req)}" class="btn btn-primary" onclick="onClickViewRawRequestDataModal(this);">View Raw Data</button>
                         </td>
                     </tr>
                 `)
