@@ -261,9 +261,9 @@
         });
 
         
-        function onClickViewRawRequestDataModal(this){
+        function onClickViewRawRequestDataModal(element){
             const modalId = 'log-viewer-raw-request-data-modal';
-            const requestRawData = this.target.getAttribute('data-raw-request-data');
+            const requestRawData = element.getAttribute('data-raw-request-data');
 
             document.querySelector(`#${modalId} .modal-body`).innerText = requestRawData;
             const requestRawDataModal = new bootstrap.Modal(document.getElementById(modalId));
