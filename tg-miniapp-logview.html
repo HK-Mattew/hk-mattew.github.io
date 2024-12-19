@@ -101,7 +101,7 @@
 
         // Intercept fetch
         const originalFetch = window.fetch;
-        window.fetch = async (input, init) => {
+        window.fetch = async (input, init = {}) => {
             const startTime = Date.now();
             try {
                 const response = await originalFetch(input, init);
@@ -110,20 +110,22 @@
                 const responseBody = await clonedResponse.text();
 
                 requests.push({
-                    method: init?.method || 'GET',
+                    method: init.method || 'GET',
                     url: input,
                     status: response.status,
                     duration,
+                    requestBody: init.body || null,
                     responseBody
                 });
 
                 return response;
             } catch (error) {
                 requests.push({
-                    method: init?.method || 'GET',
+                    method: init.method || 'GET',
                     url: input,
                     status: 'ERROR',
                     duration: `${Date.now() - startTime}ms`,
+                    requestBody: init.body || null,
                     error: error.message
                 });
                 throw error;
