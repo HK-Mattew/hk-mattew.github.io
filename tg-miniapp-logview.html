@@ -246,6 +246,19 @@
 
         function downloadFile(url, fileName){
             if(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData){
+                Telegram.WebApp.downloadFile(
+                    {url: 'https://jsonplaceholder.typicode.com/posts/1', file_name: 'test-file-download.json'},
+                    function(result) {
+                        const span = el.nextElementSibling;
+                        if (result) {
+                            span.textContent = '(downloading...)';
+                            span.className = 'ok';
+                        } else {
+                            span.textContent = '(declined)';
+                            span.className = 'err';
+                        }
+                    }
+                );
                 // Page loaded through the telegram miniapp, Download as telegram requests
                 Telegram.WebApp.downloadFile(
                     {url: url, file_name: fileName},
