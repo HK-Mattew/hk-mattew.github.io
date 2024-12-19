@@ -109,12 +109,20 @@
                 const clonedResponse = response.clone();
                 const responseBody = await clonedResponse.text();
 
+                const requestHeaders = init.headers ? JSON.stringify(init.headers) : null;
+                const responseHeaders = {};
+                clonedResponse.headers.forEach((value, key) => {
+                    responseHeaders[key] = value;
+                });
+
                 requests.push({
                     method: init.method || 'GET',
                     url: input,
                     status: response.status,
                     duration,
                     requestBody: init.body || null,
+                    requestHeaders,
+                    responseHeaders,
                     responseBody
                 });
 
@@ -126,6 +134,7 @@
                     status: 'ERROR',
                     duration: `${Date.now() - startTime}ms`,
                     requestBody: init.body || null,
+                    requestHeaders: init.headers ? JSON.stringify(init.headers) : null,
                     error: error.message
                 });
                 throw error;
