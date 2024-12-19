@@ -38,6 +38,20 @@
     <!-- Buttons -->
     <button id="show-logs" class="btn btn-success mb-3">View Logs</button>
 
+    <!-- Show raw request data Modal -->
+    <div id="log-viewer-raw-request-data-modal" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Raw Request Data</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Modal body text goes here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Modal -->
     <div id="log-modal" class="modal fade" tabindex="-1" aria-labelledby="logModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
@@ -62,7 +76,6 @@
                             <div class="d-flex justify-content-between mb-2">
                                 <input id="search-logs" class="form-control me-2" type="text" placeholder="Search logs...">
                                 <button id="clear-logs" class="btn btn-danger">Clear Logs</button>
-                                <button id="export-logs" class="btn btn-primary ms-2">Export Logs</button>
                             </div>
                             <div id="log-content" class="log-content"></div>
                         </div>
@@ -71,7 +84,6 @@
                             <div class="d-flex justify-content-between mb-2">
                                 <input id="search-requests" class="form-control me-2" type="text" placeholder="Search requests...">
                                 <button id="clear-requests" class="btn btn-danger">Clear Requests</button>
-                                <button id="export-requests" class="btn btn-primary ms-2">Export Requests</button>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-striped">
@@ -81,6 +93,7 @@
                                             <th>URL</th>
                                             <th>Status</th>
                                             <th>Duration</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="request-content"></tbody>
@@ -218,6 +231,9 @@
                         <td>${req.url}</td>
                         <td>${req.status}</td>
                         <td>${req.duration}</td>
+                        <td>
+                            <button data-raw-request-data="${req}" onclick="onClickViewRawRequestDataModal(this);">View Raw Data</button>
+                        </td>
                     </tr>
                 `)
                 .join('');
@@ -244,57 +260,15 @@
             updateRequests();
         });
 
-        function downloadFile(url, fileName){
-            if(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData){
-                Telegram.WebApp.downloadFile(
-                    {url: 'https://jsonplaceholder.typicode.com/posts/1', file_name: 'test-file-download.json'},
-                    function(result) {
-                        const span = el.nextElementSibling;
-                        if (result) {
-                            span.textContent = '(downloading...)';
-                            span.className = 'ok';
-                        } else {
-                            span.textContent = '(declined)';
-                            span.className = 'err';
-                        }
-                    }
-                );
-                // Page loaded through the telegram miniapp, Download as telegram requests
-                Telegram.WebApp.downloadFile(
-                    {url: url, file_name: fileName},
-                    function(result) {
-                        const span = el.nextElementSibling;
-                        if (result) {
-                            span.textContent = '(downloading...)';
-                            span.className = 'ok';
-                        } else {
-                            span.textContent = '(declined)';
-                            span.className = 'err';
-                        }
-                    }
-                );
-            } else {
-                // Page loaded through normal browser
-                const aElem = document.createElement('a');
-                aElem.href = url;
-                aElem.download = fileName;
-                aElem.click();
-            };
+        
+        function onClickViewRawRequestDataModal(this){
+            const modalId = 'log-viewer-raw-request-data-modal';
+            const requestRawData = this.target.getAttribute('data-raw-request-data');
+
+            document.querySelector(`#${modalId} .modal-body`).innerText = requestRawData;
+            const requestRawDataModal = new bootstrap.Modal(document.getElementById(modalId));
+            requestRawDataModal.show();
         };
-
-        document.getElementById('export-logs').addEventListener('click', () => {
-            const blob = new Blob([JSON.stringify(logs, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const fileName = 'logs.json';
-            downloadFile(url, fileName);
-        });
-
-        document.getElementById('export-requests').addEventListener('click', () => {
-            const blob = new Blob([JSON.stringify(requests, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const fileName = 'requests.json';
-            downloadFile(url, fileName);
-        });
 
         // Example logs and requests
         console.log("Test log");
