@@ -26,7 +26,7 @@
                     <h5 style="margin: 0;">Raw Request Data</h5>
                     <button type="button" style="background: none; border: none; font-size: 20px; cursor: pointer; float: right;" onclick="closeRawRequestModal()">&times;</button>
                 </div>
-                <div style="padding: 16px; background-color: #343a40; color: white; font-family: monospace; white-space: pre-wrap; overflow-x: auto; max-height: 400px;">
+                <div class="modal-content" style="padding: 16px; background-color: #343a40; color: white; font-family: monospace; white-space: pre-wrap; overflow-x: auto; max-height: 400px;">
                     <!-- JSON here -->
                 </div>
             </div>
@@ -259,7 +259,7 @@
             const modalId = 'log-viewer-raw-request-data-modal';
             const requestRawData = element.getAttribute('data-raw-request-data');
 
-            document.querySelector(`#${modalId} .modal-body`).innerText = JSON.stringify(JSON.parse(requestRawData), null, 2);;
+            document.querySelector(`#${modalId} .modal-content`).innerText = JSON.stringify(JSON.parse(requestRawData), null, 2);;
             const requestRawDataModal = new bootstrap.Modal(document.getElementById(modalId));
             requestRawDataModal.show();
         };
