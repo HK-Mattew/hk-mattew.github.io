@@ -141,6 +141,46 @@
             }
         };
 
+        // Intercept XMLHttpRequest
+        const originalXHR = window.XMLHttpRequest;
+        class InterceptedXHR extends originalXHR {
+            open(method, url, ...rest) {
+                this._method = method;
+                this._url = url;
+                this._startTime = Date.now();
+                super.open(method, url, ...rest);
+            }
+
+            send(body) {
+                this._body = body;
+                this.addEventListener('load', () => {
+                    const duration = `${Date.now() - this._startTime}ms`;
+                    const responseHeaders = this.getAllResponseHeaders();
+                    const responseBody = this.responseText;
+                    requests.push({
+                        method: this._method,
+                        url: this._url,
+                        status: this.status,
+                        duration,
+                        requestHeaders: JSON.stringify(this._headers || {}),
+                        requestBody: this._body,
+                        responseHeaders,
+                        responseBody
+                    });
+                    updateRequests();
+                });
+                super.send(body);
+            }
+
+            setRequestHeader(header, value) {
+                this._headers = this._headers || {};
+                this._headers[header] = value;
+                super.setRequestHeader(header, value);
+            }
+        }
+        window.XMLHttpRequest = InterceptedXHR;
+        
+
         // Update log content
         const updateLogs = () => {
             const logContent = document.getElementById('log-content');
