@@ -8,7 +8,7 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
-      /* Main colors */
+      /* Default Bootstrap colors */
       --bs-primary: #0d6efd;
       --bs-secondary: #6c757d;
       --bs-success: #198754;
@@ -67,10 +67,7 @@
   </div>
 
   <script>
-    if (window.Telegram && window.Telegram.WebApp) {
-      const themeParams = window.Telegram.WebApp.themeParams;
-
-      // Apply Telegram theme parameters to Bootstrap variables
+    const applyTheme = (themeParams) => {
       document.documentElement.style.setProperty('--bs-primary', themeParams.button_color || '#0d6efd');
       document.documentElement.style.setProperty('--bs-body-bg', themeParams.bg_color || '#ffffff');
       document.documentElement.style.setProperty('--bs-body-color', themeParams.text_color || '#000000');
@@ -83,6 +80,18 @@
       document.documentElement.style.setProperty('--bs-input-border-color', themeParams.bg_color || '#ced4da');
       document.documentElement.style.setProperty('--bs-tooltip-bg', themeParams.hint_color || '#000000');
       document.documentElement.style.setProperty('--bs-tooltip-color', themeParams.text_color || '#ffffff');
+    };
+
+    if (window.Telegram && window.Telegram.WebApp) {
+      const webApp = window.Telegram.WebApp;
+
+      // Apply the initial theme
+      applyTheme(webApp.themeParams);
+
+      // Listen for theme changes
+      webApp.onEvent('themeChanged', () => {
+        applyTheme(webApp.themeParams);
+      });
     }
   </script>
 </body>
