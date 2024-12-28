@@ -34,12 +34,6 @@
       /* Shadows */
       --bs-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 
-      /* Buttons */
-      --bs-btn-bg: #0d6efd;
-      --bs-btn-border-color: #0d6efd;
-      --bs-btn-hover-bg: #0056b3;
-      --bs-btn-hover-border-color: #0056b3;
-
       /* Inputs */
       --bs-input-bg: #ffffff;
       --bs-input-border-color: #ced4da;
@@ -53,6 +47,7 @@
     body {
       background-color: var(--bs-body-bg);
       color: var(--bs-body-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
   </style>
 </head>
@@ -68,6 +63,7 @@
 
   <script>
     const applyTheme = (themeParams) => {
+      // Ensure valid colors with fallbacks
       document.documentElement.style.setProperty('--bs-primary', themeParams.button_color || '#0d6efd');
       document.documentElement.style.setProperty('--bs-body-bg', themeParams.bg_color || '#ffffff');
       document.documentElement.style.setProperty('--bs-body-color', themeParams.text_color || '#000000');
@@ -90,8 +86,12 @@
 
       // Listen for theme changes
       webApp.onEvent('themeChanged', () => {
+        // Apply the updated theme
         applyTheme(webApp.themeParams);
       });
+
+      // Ensure WebApp is ready
+      webApp.ready();
     }
   </script>
 </body>
