@@ -16,7 +16,7 @@
     /* Global styles */
     body {
       font-family: 'Roboto', sans-serif;
-      background-color: #f8f9fa; /* Light gray background */
+      /* Removido background-color para usar o padrão */
     }
     
     /* Remove table borders */
@@ -46,10 +46,11 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
     
+    /* Card body layout: text on left and button on right */
     .card-body {
       display: flex;
-      flex-direction: column;
       justify-content: space-between;
+      align-items: center;
       padding: 1.5rem;
     }
     
@@ -68,7 +69,7 @@
       font-size: 0.9rem;
       font-weight: 500;
       color: #198754;
-      margin-bottom: 1rem;
+      margin-bottom: 0;
     }
     
     .complete-task {
@@ -123,12 +124,12 @@
     </tbody>
   </table>
 </div>
-
+  
 <!-- jQuery, Bootstrap Table JS and Bootstrap Bundle with Popper -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+  
 <script>
   $(document).ready(function(){
     const tasks = [
@@ -159,9 +160,11 @@
                   </ul>
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">${task.title}</h5>
-                  <p class="card-text">${task.description}</p>
-                  <p class="reward">Reward: $${task.reward.toFixed(5)}</p>
+                  <div>
+                    <h5 class="card-title">${task.title}</h5>
+                    <p class="card-text">${task.description}</p>
+                    <p class="reward">Reward: $${task.reward.toFixed(5)}</p>
+                  </div>
                   <button class="btn btn-primary btn-sm complete-task" data-id="${task.id}">Complete</button>
                 </div>
               </div>
@@ -200,5 +203,6 @@
     loadTasks();
   });
 </script>
+  
 </body>
 </html>
