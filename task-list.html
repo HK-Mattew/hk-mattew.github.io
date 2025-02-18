@@ -1,50 +1,50 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lista de Tarefas</title>
+    <title>Task List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
     <style>
-        /* Remover bordas da tabela */
-        #tabela-tarefas, 
-        #tabela-tarefas tbody, 
-        #tabela-tarefas tr, 
-        #tabela-tarefas td {
+        /* Remove table borders */
+        #task-table, 
+        #task-table tbody, 
+        #task-table tr, 
+        #task-table td {
             border: none !important;
         }
 
-        /* Remover efeito hover cinza */
+        /* Remove hover effect */
         .bootstrap-table .table tbody tr {
             background: none !important;
         }
 
-        /* Borda suave nos cards */
+        /* Soft border for cards */
         .card {
-            border: 1px solid #ddd;  /* Borda suave */
-            border-radius: 10px;  /* Bordas arredondadas */
+            border: 1px solid #ddd;  /* Soft border */
+            border-radius: 10px;  /* Rounded corners */
         }
 
-        /* Ajustar layout do card */
+        /* Card layout */
         .card-body {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        /* Recompensa */
-        .recompensa {
+        /* Reward text */
+        .reward {
             font-size: 14px;
             font-weight: bold;
-            color: #198754; /* Verde Bootstrap */
+            color: #198754; /* Bootstrap green */
             margin-top: 5px;
         }
 
-        /* Botão ajustado para a direita */
-        .realizar-tarefa {
+        /* Align button to the right */
+        .complete-task {
             white-space: nowrap;
         }
     </style>
@@ -52,44 +52,44 @@
 <body>
 
 <div class="container mt-4">
-    <h2 class="text-center mb-3">Lista de Tarefas</h2>
+    <h2 class="text-center mb-3">Task List</h2>
 
-    <table id="tabela-tarefas" 
+    <table id="task-table" 
            class="table"
            data-toggle="table"
            data-pagination="true"
            data-search="true">
         <tbody>
-            <!-- Os cards das tarefas serão carregados aqui -->
+            <!-- Task cards will be loaded here -->
         </tbody>
     </table>
 </div>
 
 <script>
 $(document).ready(function () {
-    let tarefas = [
-        { id: 1, titulo: "Fazer compras", descricao: "Comprar leite e pão", recompensa: 0.00032 },
-        { id: 2, titulo: "Enviar relatório", descricao: "Relatório mensal para o chefe", recompensa: 0.00032 },
-        { id: 3, titulo: "Agendar consulta", descricao: "Marcar dentista para sexta-feira", recompensa: 0.00032 },
-        { id: 4, titulo: "Estudar JavaScript", descricao: "Revisar closures e promises", recompensa: 0.00032 }
+    let tasks = [
+        { id: 1, title: "Go shopping", description: "Buy milk and bread", reward: 0.00032 },
+        { id: 2, title: "Send report", description: "Monthly report for the manager", reward: 0.00032 },
+        { id: 3, title: "Schedule appointment", description: "Book a dentist appointment for Friday", reward: 0.00032 },
+        { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
 
-    function carregarTarefas() {
-        let tabela = $("#tabela-tarefas tbody");
-        tabela.empty();  // Limpa a tabela antes de adicionar os novos itens
+    function loadTasks() {
+        let table = $("#task-table tbody");
+        table.empty();  // Clear the table before adding new items
 
-        tarefas.forEach(tarefa => {
-            tabela.append(`
+        tasks.forEach(task => {
+            table.append(`
                 <tr>
                     <td>
                         <div class="card shadow-sm mb-3">
                             <div class="card-body">
                                 <div>
-                                    <h5 class="card-title">${tarefa.titulo}</h5>
-                                    <p class="card-text">${tarefa.descricao}</p>
-                                    <p class="recompensa">💰 Recompensa: $${tarefa.recompensa.toFixed(5)}</p>
+                                    <h5 class="card-title">${task.title}</h5>
+                                    <p class="card-text">${task.description}</p>
+                                    <p class="reward">Reward: $${task.reward.toFixed(5)}</p>
                                 </div>
-                                <button class="btn btn-primary btn-sm realizar-tarefa" data-id="${tarefa.id}">Realizar</button>
+                                <button class="btn btn-primary btn-sm complete-task" data-id="${task.id}">Complete</button>
                             </div>
                         </div>
                     </td>
@@ -97,18 +97,18 @@ $(document).ready(function () {
             `);
         });
 
-        $(".realizar-tarefa").click(function () {
-            let idTarefa = $(this).data("id");
-            alert("Tarefa " + idTarefa + " realizada! Você ganhou $" + tarefas.find(t => t.id === idTarefa).recompensa.toFixed(5));
+        $(".complete-task").click(function () {
+            let taskId = $(this).data("id");
+            alert("Task " + taskId + " completed! You earned $" + tasks.find(t => t.id === taskId).reward.toFixed(5));
         });
     }
 
-    // Remover classes desnecessárias adicionadas pelo Bootstrap Table
+    // Remove unnecessary Bootstrap Table classes
     setTimeout(() => {
-        $("#tabela-tarefas").removeClass("table-bordered table-hover");
+        $("#task-table").removeClass("table-bordered table-hover");
     }, 100);
 
-    carregarTarefas(); // Carrega os cards das tarefas ao iniciar
+    loadTasks(); // Load task cards on page load
 });
 </script>
 
