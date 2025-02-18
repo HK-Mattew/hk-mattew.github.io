@@ -26,11 +26,11 @@
       border: none !important;
     }
     
-    /* Remove hover background for table rows */
-    #task-table tr:hover,
-    #task-table tbody tr:hover,
-    .bootstrap-table .table-hover tbody tr:hover > td,
-    .bootstrap-table .table tbody tr:hover {
+    /* Remove hover background for table rows com alta especificidade */
+    .table tbody tr:hover,
+    .table-hover tbody tr:hover,
+    .table tbody tr:hover > td,
+    .table-hover tbody tr:hover > td {
       background-color: transparent !important;
     }
     
