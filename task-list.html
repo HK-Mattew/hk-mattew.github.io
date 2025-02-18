@@ -16,18 +16,15 @@
     /* Global styles */
     body {
       font-family: 'Roboto', sans-serif;
-      /* Usando o fundo padrão do navegador */
     }
     
-    /* Remove table borders */
+    /* Remove table borders and hover effects */
     #task-table, 
     #task-table tbody, 
     #task-table tr, 
     #task-table td {
       border: none !important;
     }
-    
-    /* Remove hover effect from table rows */
     .bootstrap-table .table tbody tr {
       background: none !important;
     }
@@ -40,31 +37,26 @@
       background-color: #fff;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    
     .card:hover {
       transform: translateY(-3px);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
     
-    /* Card body layout: text on left and button on right */
     .card-body {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1.5rem;
     }
-    
     .card-title {
       font-weight: 700;
       margin-bottom: 0.5rem;
     }
-    
     .card-text {
       font-size: 0.95rem;
       color: #555;
       margin-bottom: 0.75rem;
     }
-    
     .reward {
       font-size: 0.9rem;
       font-weight: 500;
@@ -76,7 +68,6 @@
       white-space: nowrap;
       transition: background-color 0.2s;
     }
-    
     .complete-task:hover {
       background-color: #0069d9;
     }
@@ -85,7 +76,6 @@
     .dropdown-toggle::after {
       display: none; /* Remove default Bootstrap arrow */
     }
-    
     .btn-link.dropdown-toggle,
     .btn-link.dropdown-toggle:hover,
     .btn-link.dropdown-toggle:focus {
@@ -94,12 +84,10 @@
       box-shadow: none;
       color: #000;
     }
-    
     .dropdown-menu {
       border-radius: 0.5rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    
     /* Position dropdown at the top right of the card */
     .dropdown {
       position: absolute;
@@ -113,15 +101,12 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Task List</h2>
   
-  <!-- Bootstrap Table -->
-  <table id="task-table" 
-         class="table" 
-         data-toggle="table" 
-         data-pagination="true" 
-         data-search="true">
-    <tbody>
-      <!-- Task cards will be loaded here -->
-    </tbody>
+  <!-- Bootstrap Table with header hidden -->
+  <table id="task-table"
+         data-toggle="table"
+         data-pagination="true"
+         data-search="true"
+         data-show-header="false">
   </table>
 </div>
   
@@ -132,6 +117,7 @@
   
 <script>
   $(document).ready(function(){
+    // Array de tarefas
     const tasks = [
       { id: 1, title: "Go shopping", description: "Buy milk and bread", reward: 0.00032 },
       { id: 2, title: "Send report", description: "Monthly report for the manager", reward: 0.00032 },
@@ -139,74 +125,65 @@
       { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
     
-    function loadTasks() {
-      const tableBody = $("#task-table tbody");
-      tableBody.empty();
+    // Formatter function que retorna o HTML do card
+    function cardFormatter(value, row, index) {
+      let shortDescription = row.description;
+      if (shortDescription.length > 25) {
+        shortDescription = shortDescription.substring(0, 25) + '...';
+      }
       
-      tasks.forEach(task => {
-        // Abreviar a descrição se tiver mais de 25 caracteres
-        let shortDescription = task.description;
-        if (shortDescription.length > 25) {
-          shortDescription = shortDescription.substring(0, 25) + '...';
-        }
-        
-        tableBody.append(`
-          <tr>
-            <td>
-              <div class="card shadow-sm mb-3">
-                <!-- Dropdown menu at the top right -->
-                <div class="dropdown">
-                  <button class="btn btn-link p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    &#x22EE;
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item edit-task" href="#" data-id="${task.id}">Edit</a></li>
-                    <li><a class="dropdown-item delete-task" href="#" data-id="${task.id}">Delete</a></li>
-                    <li><a class="dropdown-item view-task" href="#" data-id="${task.id}">View Details</a></li>
-                  </ul>
-                </div>
-                <div class="card-body">
-                  <div>
-                    <h5 class="card-title">${task.title}</h5>
-                    <p class="card-text">${shortDescription}</p>
-                    <p class="reward">Reward: $${task.reward.toFixed(5)}</p>
-                  </div>
-                  <button class="btn btn-primary btn-sm complete-task" data-id="${task.id}">Complete</button>
-                </div>
-              </div>
-            </td>
-          </tr>
-        `);
-      });
-      
-      $(".complete-task").click(function(){
-        const taskId = $(this).data("id");
-        const reward = tasks.find(t => t.id === taskId).reward.toFixed(5);
-        alert("Task " + taskId + " completed! You earned $" + reward);
-      });
-      
-      $(".edit-task").click(function(){
-        const taskId = $(this).data("id");
-        alert("Edit task " + taskId);
-      });
-      
-      $(".delete-task").click(function(){
-        const taskId = $(this).data("id");
-        alert("Delete task " + taskId);
-      });
-      
-      $(".view-task").click(function(){
-        const taskId = $(this).data("id");
-        alert("View details of task " + taskId);
-      });
+      return `
+        <div class="card shadow-sm mb-3">
+          <!-- Dropdown menu at the top right -->
+          <div class="dropdown">
+            <button class="btn btn-link p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              &#x22EE;
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item edit-task" href="#" data-id="${row.id}">Edit</a></li>
+              <li><a class="dropdown-item delete-task" href="#" data-id="${row.id}">Delete</a></li>
+              <li><a class="dropdown-item view-task" href="#" data-id="${row.id}">View Details</a></li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <div>
+              <h5 class="card-title">${row.title}</h5>
+              <p class="card-text">${shortDescription}</p>
+              <p class="reward">Reward: $${row.reward.toFixed(5)}</p>
+            </div>
+            <button class="btn btn-primary btn-sm complete-task" data-id="${row.id}">Complete</button>
+          </div>
+        </div>
+      `;
     }
     
-    // Remove unnecessary Bootstrap Table classes if added automatically
-    setTimeout(() => {
-      $("#task-table").removeClass("table-bordered table-hover");
-    }, 100);
+    // Inicializa o Bootstrap Table com os dados e a coluna com o formatter
+    $('#task-table').bootstrapTable({
+      data: tasks,
+      columns: [{
+        field: 'id', // Campo arbitrário (usado para identificar cada linha)
+        formatter: cardFormatter
+      }]
+    });
     
-    loadTasks();
+    // Delegação de eventos para os botões gerados dinamicamente
+    $(document).on('click', '.complete-task', function(){
+      const taskId = $(this).data('id');
+      const task = tasks.find(t => t.id === taskId);
+      alert("Task " + taskId + " completed! You earned $" + task.reward.toFixed(5));
+    });
+    $(document).on('click', '.edit-task', function(){
+      const taskId = $(this).data('id');
+      alert("Edit task " + taskId);
+    });
+    $(document).on('click', '.delete-task', function(){
+      const taskId = $(this).data('id');
+      alert("Delete task " + taskId);
+    });
+    $(document).on('click', '.view-task', function(){
+      const taskId = $(this).data('id');
+      alert("View details of task " + taskId);
+    });
   });
 </script>
   
