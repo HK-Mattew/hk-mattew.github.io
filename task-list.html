@@ -18,16 +18,20 @@
       font-family: 'Roboto', sans-serif;
     }
     
-    /* Remove table borders and hover effects */
+    /* Remove table borders */
     #task-table, 
     #task-table tbody, 
     #task-table tr, 
     #task-table td {
       border: none !important;
     }
-    .bootstrap-table .table tbody tr,
+    
+    /* Remove hover background for table rows */
+    #task-table tr:hover,
+    #task-table tbody tr:hover,
+    .bootstrap-table .table-hover tbody tr:hover > td,
     .bootstrap-table .table tbody tr:hover {
-      background: transparent !important;
+      background-color: transparent !important;
     }
     
     /* Card styles */
