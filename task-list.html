@@ -12,22 +12,15 @@
 <body>
 
 <div class="container mt-4">
-    <h2 class="text-center">Lista de Tarefas</h2>
+    <h2 class="text-center mb-3">Lista de Tarefas</h2>
 
     <table id="tabela-tarefas" 
-           class="table table-striped"
+           class="table"
            data-toggle="table"
            data-pagination="true"
            data-search="true">
-        <thead class="table-dark">
-            <tr>
-                <th data-field="titulo" data-sortable="true">Título</th>
-                <th data-field="descricao">Descrição</th>
-                <th data-field="acao" class="text-end">Ação</th>
-            </tr>
-        </thead>
         <tbody>
-            <!-- Dados serão carregados dinamicamente -->
+            <!-- Os cards das tarefas serão carregados aqui -->
         </tbody>
     </table>
 </div>
@@ -48,10 +41,14 @@ $(document).ready(function () {
         tarefas.forEach(tarefa => {
             tabela.append(`
                 <tr>
-                    <td>${tarefa.titulo}</td>
-                    <td>${tarefa.descricao}</td>
-                    <td class="text-end">
-                        <button class="btn btn-primary btn-sm realizar-tarefa" data-id="${tarefa.id}">Realizar</button>
+                    <td>
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">${tarefa.titulo}</h5>
+                                <p class="card-text">${tarefa.descricao}</p>
+                                <button class="btn btn-primary btn-sm realizar-tarefa" data-id="${tarefa.id}">Realizar</button>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             `);
@@ -63,7 +60,7 @@ $(document).ready(function () {
         });
     }
 
-    carregarTarefas(); // Carrega os dados na tabela ao iniciar
+    carregarTarefas(); // Carrega os cards das tarefas ao iniciar
 });
 </script>
 
