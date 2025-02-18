@@ -22,7 +22,7 @@
       background: none !important;
     }
     
-    /* Soft border for cards with relative positioning for dropdown */
+    /* Soft border for cards with relative positioning */
     .card {
       border: 1px solid #ddd;  /* Soft border */
       border-radius: 10px;       /* Rounded corners */
@@ -52,6 +52,15 @@
     /* Dropdown customizations */
     .dropdown-toggle::after {
       display: none; /* Remove default Bootstrap arrow */
+    }
+    
+    /* Remove any underline/line on the three dots button */
+    .btn.btn-link.dropdown-toggle,
+    .btn.btn-link.dropdown-toggle:hover,
+    .btn.btn-link.dropdown-toggle:focus {
+      text-decoration: none;
+      outline: none;
+      box-shadow: none;
     }
   </style>
 </head>
