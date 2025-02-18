@@ -26,11 +26,9 @@
       border: none !important;
     }
     
-    /* Remove hover background for table rows com alta especificidade */
-    .table tbody tr:hover,
-    .table-hover tbody tr:hover,
-    .table tbody tr:hover > td,
-    .table-hover tbody tr:hover > td {
+    /* Remove hover background with high specificity */
+    table.table.table-bordered.table-hover tbody tr:hover,
+    table.table.table-bordered.table-hover tbody tr:hover > td {
       background-color: transparent !important;
     }
     
@@ -167,6 +165,17 @@
         formatter: cardFormatter
       }]
     });
+    
+    // Observer para remover as classes indesejadas assim que forem adicionadas
+    const tableEl = document.getElementById('task-table');
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.attributeName === 'class') {
+          tableEl.classList.remove('table-bordered', 'table-hover');
+        }
+      });
+    });
+    observer.observe(tableEl, { attributes: true });
     
     // Delegação de eventos para botões gerados dinamicamente
     $(document).on('click', '.complete-task', function(){
