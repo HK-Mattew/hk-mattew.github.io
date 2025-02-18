@@ -41,7 +41,6 @@
       transform: translateY(-3px);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
-    
     .card-body {
       display: flex;
       justify-content: space-between;
@@ -101,12 +100,8 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Task List</h2>
   
-  <!-- Bootstrap Table with header hidden -->
-  <table id="task-table"
-         data-pagination="true"
-         data-search="true"
-         data-show-header="false">
-  </table>
+  <!-- Bootstrap Table sem paginação -->
+  <table id="task-table"></table>
 </div>
   
 <!-- jQuery, Bootstrap Table JS and Bootstrap Bundle with Popper -->
@@ -124,7 +119,7 @@
       { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
     
-    // Formatter function que retorna o HTML do card
+    // Formatter para renderizar os cards
     function cardFormatter(value, row, index) {
       let shortDescription = row.description;
       if (shortDescription.length > 25) {
@@ -156,16 +151,19 @@
       `;
     }
     
-    // Inicializa o Bootstrap Table com os dados e a coluna com o formatter
+    // Inicializa o Bootstrap Table manualmente sem paginação
     $('#task-table').bootstrapTable({
       data: tasks,
+      pagination: false,  // Desativa a paginação
+      search: true,
+      showHeader: false,
       columns: [{
-        field: 'id', // Campo arbitrário (usado para identificar cada linha)
+        field: 'id', // Campo arbitrário para identificar cada linha
         formatter: cardFormatter
       }]
     });
     
-    // Delegação de eventos para os botões gerados dinamicamente
+    // Delegação de eventos para botões gerados dinamicamente
     $(document).on('click', '.complete-task', function(){
       const taskId = $(this).data('id');
       const task = tasks.find(t => t.id === taskId);
