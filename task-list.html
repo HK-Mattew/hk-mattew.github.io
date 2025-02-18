@@ -26,7 +26,6 @@
         .card {
             border: 1px solid #ddd;  /* Soft border */
             border-radius: 10px;  /* Rounded corners */
-            position: relative;
         }
 
         /* Card layout */
@@ -47,30 +46,6 @@
         /* Align button to the right */
         .complete-task {
             white-space: nowrap;
-        }
-
-        /* Dropdown menu (three dots) */
-        .dropdown-menu {
-            min-width: 120px;
-        }
-
-        .dropdown-toggle::after {
-            display: none !important; /* Remove default Bootstrap arrow */
-        }
-
-        .menu-btn {
-            border: none;
-            background: none;
-            font-size: 20px;
-            padding: 5px;
-            cursor: pointer;
-        }
-
-        /* Position dropdown at the top right of the card */
-        .dropdown {
-            position: absolute;
-            top: 10px;
-            right: 10px;
         }
     </style>
 </head>
@@ -109,23 +84,13 @@ $(document).ready(function () {
                     <td>
                         <div class="card shadow-sm mb-3">
                             <div class="card-body">
-                                <!-- Dropdown menu -->
-                                <div class="dropdown">
-                                    <button class="menu-btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                        &#x22EE;
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item edit-task" href="#" data-id="${task.id}">Edit</a></li>
-                                        <li><a class="dropdown-item delete-task" href="#" data-id="${task.id}">Delete</a></li>
-                                        <li><a class="dropdown-item view-task" href="#" data-id="${task.id}">View Details</a></li>
-                                    </ul>
+                                <div>
+                                    <h5 class="card-title">${task.title}</h5>
+                                    <p class="card-text">${task.description}</p>
+                                    <p class="reward">Reward: $${task.reward.toFixed(5)}</p>
                                 </div>
-
-                                <h5 class="card-title">${task.title}</h5>
-                                <p class="card-text">${task.description}</p>
-                                <p class="reward">Reward: $${task.reward.toFixed(5)}</p>
+                                <button class="btn btn-primary btn-sm complete-task" data-id="${task.id}">Complete</button>
                             </div>
-                            <button class="btn btn-primary btn-sm complete-task" data-id="${task.id}">Complete</button>
                         </div>
                     </td>
                 </tr>
@@ -135,21 +100,6 @@ $(document).ready(function () {
         $(".complete-task").click(function () {
             let taskId = $(this).data("id");
             alert("Task " + taskId + " completed! You earned $" + tasks.find(t => t.id === taskId).reward.toFixed(5));
-        });
-
-        $(".edit-task").click(function () {
-            let taskId = $(this).data("id");
-            alert("Edit task " + taskId);
-        });
-
-        $(".delete-task").click(function () {
-            let taskId = $(this).data("id");
-            alert("Delete task " + taskId);
-        });
-
-        $(".view-task").click(function () {
-            let taskId = $(this).data("id");
-            alert("View details of task " + taskId);
         });
     }
 
@@ -161,8 +111,6 @@ $(document).ready(function () {
     loadTasks(); // Load task cards on page load
 });
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
