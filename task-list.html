@@ -66,11 +66,11 @@
             cursor: pointer;
         }
 
-        /* Positioning dropdown inside the card */
+        /* Position dropdown at the top right of the card */
         .dropdown {
             position: absolute;
             top: 10px;
-            left: 10px;
+            right: 10px;
         }
     </style>
 </head>
@@ -109,25 +109,23 @@ $(document).ready(function () {
                     <td>
                         <div class="card shadow-sm mb-3">
                             <div class="card-body">
-                                <div>
-                                    <!-- Dropdown menu -->
-                                    <div class="dropdown">
-                                        <button class="menu-btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                            &#x22EE;
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item edit-task" href="#" data-id="${task.id}">Edit</a></li>
-                                            <li><a class="dropdown-item delete-task" href="#" data-id="${task.id}">Delete</a></li>
-                                            <li><a class="dropdown-item view-task" href="#" data-id="${task.id}">View Details</a></li>
-                                        </ul>
-                                    </div>
-
-                                    <h5 class="card-title">${task.title}</h5>
-                                    <p class="card-text">${task.description}</p>
-                                    <p class="reward">Reward: $${task.reward.toFixed(5)}</p>
+                                <!-- Dropdown menu -->
+                                <div class="dropdown">
+                                    <button class="menu-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                        &#x22EE;
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item edit-task" href="#" data-id="${task.id}">Edit</a></li>
+                                        <li><a class="dropdown-item delete-task" href="#" data-id="${task.id}">Delete</a></li>
+                                        <li><a class="dropdown-item view-task" href="#" data-id="${task.id}">View Details</a></li>
+                                    </ul>
                                 </div>
-                                <button class="btn btn-primary btn-sm complete-task" data-id="${task.id}">Complete</button>
+
+                                <h5 class="card-title">${task.title}</h5>
+                                <p class="card-text">${task.description}</p>
+                                <p class="reward">Reward: $${task.reward.toFixed(5)}</p>
                             </div>
+                            <button class="btn btn-primary btn-sm complete-task" data-id="${task.id}">Complete</button>
                         </div>
                     </td>
                 </tr>
