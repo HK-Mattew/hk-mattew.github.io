@@ -9,14 +9,22 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
     <style>
-        /* Remover borda da tabela */
-        #tabela-tarefas {
-            border: none;
+        /* Remover bordas da tabela */
+        #tabela-tarefas, 
+        #tabela-tarefas tbody, 
+        #tabela-tarefas tr, 
+        #tabela-tarefas td {
+            border: none !important;
         }
 
         /* Remover efeito hover cinza */
         .bootstrap-table .table tbody tr {
             background: none !important;
+        }
+
+        /* Remover bordas dos cards */
+        .card {
+            border: none;
         }
 
         /* Ajustar layout do card */
@@ -84,6 +92,11 @@ $(document).ready(function () {
             alert("Tarefa " + idTarefa + " realizada!");
         });
     }
+
+    // Remover classes desnecessárias adicionadas pelo Bootstrap Table
+    setTimeout(() => {
+        $("#tabela-tarefas").removeClass("table-bordered table-hover");
+    }, 100);
 
     carregarTarefas(); // Carrega os cards das tarefas ao iniciar
 });
