@@ -16,7 +16,7 @@
     /* Global styles */
     body {
       font-family: 'Roboto', sans-serif;
-      /* Removido background-color para usar o padrão */
+      /* Usando o fundo padrão do navegador */
     }
     
     /* Remove table borders */
@@ -144,6 +144,12 @@
       tableBody.empty();
       
       tasks.forEach(task => {
+        // Abreviar a descrição se tiver mais de 25 caracteres
+        let shortDescription = task.description;
+        if (shortDescription.length > 25) {
+          shortDescription = shortDescription.substring(0, 25) + '...';
+        }
+        
         tableBody.append(`
           <tr>
             <td>
@@ -162,7 +168,7 @@
                 <div class="card-body">
                   <div>
                     <h5 class="card-title">${task.title}</h5>
-                    <p class="card-text">${task.description}</p>
+                    <p class="card-text">${shortDescription}</p>
                     <p class="reward">Reward: $${task.reward.toFixed(5)}</p>
                   </div>
                   <button class="btn btn-primary btn-sm complete-task" data-id="${task.id}">Complete</button>
