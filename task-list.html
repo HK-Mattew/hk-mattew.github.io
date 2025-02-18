@@ -22,7 +22,7 @@
             background: none !important;
         }
 
-        /* Manter uma borda suave nos cards */
+        /* Borda suave nos cards */
         .card {
             border: 1px solid #ddd;  /* Borda suave */
             border-radius: 10px;  /* Bordas arredondadas */
@@ -35,7 +35,15 @@
             align-items: center;
         }
 
-        /* Ajustar botão para a direita */
+        /* Recompensa */
+        .recompensa {
+            font-size: 14px;
+            font-weight: bold;
+            color: #198754; /* Verde Bootstrap */
+            margin-top: 5px;
+        }
+
+        /* Botão ajustado para a direita */
         .realizar-tarefa {
             white-space: nowrap;
         }
@@ -60,10 +68,10 @@
 <script>
 $(document).ready(function () {
     let tarefas = [
-        { id: 1, titulo: "Fazer compras", descricao: "Comprar leite e pão" },
-        { id: 2, titulo: "Enviar relatório", descricao: "Relatório mensal para o chefe" },
-        { id: 3, titulo: "Agendar consulta", descricao: "Marcar dentista para sexta-feira" },
-        { id: 4, titulo: "Estudar JavaScript", descricao: "Revisar closures e promises" }
+        { id: 1, titulo: "Fazer compras", descricao: "Comprar leite e pão", recompensa: 0.00032 },
+        { id: 2, titulo: "Enviar relatório", descricao: "Relatório mensal para o chefe", recompensa: 0.00032 },
+        { id: 3, titulo: "Agendar consulta", descricao: "Marcar dentista para sexta-feira", recompensa: 0.00032 },
+        { id: 4, titulo: "Estudar JavaScript", descricao: "Revisar closures e promises", recompensa: 0.00032 }
     ];
 
     function carregarTarefas() {
@@ -79,6 +87,7 @@ $(document).ready(function () {
                                 <div>
                                     <h5 class="card-title">${tarefa.titulo}</h5>
                                     <p class="card-text">${tarefa.descricao}</p>
+                                    <p class="recompensa">💰 Recompensa: $${tarefa.recompensa.toFixed(5)}</p>
                                 </div>
                                 <button class="btn btn-primary btn-sm realizar-tarefa" data-id="${tarefa.id}">Realizar</button>
                             </div>
@@ -90,7 +99,7 @@ $(document).ready(function () {
 
         $(".realizar-tarefa").click(function () {
             let idTarefa = $(this).data("id");
-            alert("Tarefa " + idTarefa + " realizada!");
+            alert("Tarefa " + idTarefa + " realizada! Você ganhou $" + tarefas.find(t => t.id === idTarefa).recompensa.toFixed(5));
         });
     }
 
