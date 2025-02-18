@@ -26,9 +26,11 @@
       border: none !important;
     }
     
-    /* Remove hover background with high specificity */
-    table.table.table-bordered.table-hover tbody tr:hover,
-    table.table.table-bordered.table-hover tbody tr:hover > td {
+    /* Garante que não haja fundo de hover nas linhas */
+    .table tbody tr:hover,
+    .table-hover tbody tr:hover,
+    .table tbody tr:hover > td,
+    .table-hover tbody tr:hover > td {
       background-color: transparent !important;
     }
     
@@ -103,7 +105,7 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Task List</h2>
   
-  <!-- Bootstrap Table sem paginação -->
+  <!-- Tabela sem atributos de auto-inicialização -->
   <table id="task-table"></table>
 </div>
   
@@ -114,7 +116,6 @@
   
 <script>
   $(document).ready(function(){
-    // Array de tarefas
     const tasks = [
       { id: 1, title: "Go shopping", description: "Buy milk and bread", reward: 0.00032 },
       { id: 2, title: "Send report", description: "Monthly report for the manager", reward: 0.00032 },
@@ -122,7 +123,6 @@
       { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
     
-    // Formatter para renderizar os cards
     function cardFormatter(value, row, index) {
       let shortDescription = row.description;
       if (shortDescription.length > 25) {
@@ -154,30 +154,20 @@
       `;
     }
     
-    // Inicializa o Bootstrap Table manualmente sem paginação
+    // Inicializa o Bootstrap Table definindo as classes desejadas
     $('#task-table').bootstrapTable({
+      classes: "table", // Apenas a classe "table" será aplicada
       data: tasks,
-      pagination: false,  // Desativa a paginação
+      pagination: false,
       search: true,
       showHeader: false,
       columns: [{
-        field: 'id', // Campo arbitrário para identificar cada linha
+        field: 'id',
         formatter: cardFormatter
       }]
     });
     
-    // Observer para remover as classes indesejadas assim que forem adicionadas
-    const tableEl = document.getElementById('task-table');
-    const observer = new MutationObserver(function(mutations) {
-      mutations.forEach(function(mutation) {
-        if (mutation.attributeName === 'class') {
-          tableEl.classList.remove('table-bordered', 'table-hover');
-        }
-      });
-    });
-    observer.observe(tableEl, { attributes: true });
-    
-    // Delegação de eventos para botões gerados dinamicamente
+    // Delegação de eventos para botões
     $(document).on('click', '.complete-task', function(){
       const taskId = $(this).data('id');
       const task = tasks.find(t => t.id === taskId);
