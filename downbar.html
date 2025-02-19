@@ -88,19 +88,19 @@
             width: 70%;
         }
 
-        /* Hide/Show Navbar */
+        /* Hide Navbar */
         .navbar.hidden {
             transform: translateY(100%);
             opacity: 0;
             visibility: hidden;
         }
 
-        /* Small handle (resalto) to toggle navbar */
+        /* Handle (resalto) for toggling navbar */
         .navbar-handle {
-            position: absolute;
-            top: -10px;
+            position: fixed;
+            bottom: 5px;
             left: 50%;
-            width: 40px;
+            width: 50px;
             height: 6px;
             background: #bbb;
             border-radius: 3px;
@@ -111,6 +111,11 @@
 
         .navbar-handle:hover {
             background: #888;
+        }
+
+        /* Position the handle correctly when navbar is hidden */
+        .navbar.hidden + .navbar-handle {
+            bottom: 10px;
         }
 
         /* Responsive adjustments */
@@ -127,6 +132,10 @@
             .material-icons {
                 font-size: 24px;
             }
+
+            .navbar-handle {
+                bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -134,9 +143,6 @@
 
     <!-- Bottom Navigation Bar -->
     <nav id="bottomNavbar" class="navbar navbar-expand fixed-bottom">
-        <!-- Handle (resalto) -->
-        <div id="navbarHandle" class="navbar-handle"></div>
-
         <div class="container-fluid">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
@@ -166,6 +172,9 @@
             </ul>
         </div>
     </nav>
+
+    <!-- Handle (resalto) -->
+    <div id="navbarHandle" class="navbar-handle"></div>
 
     <!-- Bootstrap Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
