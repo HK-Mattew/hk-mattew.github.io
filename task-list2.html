@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Task List</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  
+  <!-- Bootstrap CSS, Bootstrap Table CSS & Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  
+  <style>
+    /* Global styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      padding-bottom: 60px; /* Espaço para a barra de navegação inferior */
+    }
+
+    /* Banner card styles */
+    .banner-card {
+      position: relative;
+      background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* Task card styles */
+    .card {
+      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    /* Navigation bar styles */
+    .navbar-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #343a40;
+      z-index: 1000;
+    }
+    .navbar-bottom .nav-link {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+    .navbar-bottom .nav-link:hover {
+      color: #ffc107;
+    }
+    .navbar-bottom .nav-item {
+      text-align: center;
+    }
+    .navbar-bottom .bi {
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Task List</h2>
+  
+  <!-- Banner card positioned below the title -->
+  <div class="card banner-card mb-4">
+    <div class="card-body">
+      <div class="banner-icon">
+        <i class="bi bi-megaphone"></i>
+      </div>
+      <div>
+        <h4 class="card-title mb-2">Advertise Your Task!</h4>
+        <p class="card-text mb-0">
+          <a href="https://example.com/advertise">
+            Click here to post your task and get it featured! <i class="bi bi-arrow-right"></i>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Task List Table -->
+  <table id="task-table"></table>
+</div>
+
+<!-- Bottom Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-bottom">
+  <ul class="nav w-100 justify-content-between">
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="bi bi-house-door"></i> Home
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="bi bi-list"></i> Task List
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="bi bi-chat-left-text"></i> Messages
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="bi bi-person"></i> Profile
+      </a>
+    </li>
+  </ul>
+</nav>
+  
+<!-- jQuery, Bootstrap Table JS and Bootstrap Bundle with Popper -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+<script>
+  $(document).ready(function(){
+    const tasks = [
+      { id: 1, title: "Go shopping", description: "Buy milk and bread", reward: 0.00032 },
+      { id: 2, title: "Send report", description: "Monthly report for the manager", reward: 0.00032 },
+      { id: 3, title: "Schedule appointment", description: "Book a dentist appointment for Friday", reward: 0.00032 },
+      { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
+    ];
+    
+    // Formatter to render a card with a shortened description if >25 characters
+    function cardFormatter(value, row, index) {
+      let shortDescription = row.description;
+      if (shortDescription.length > 25) {
+        shortDescription = shortDescription.substring(0, 25) + '...';
+      }
+      
+      return `
+        <div class="card shadow-sm mb-3">
+          <!-- Dropdown menu on the top right -->
+          <div class="dropdown">
+            <button class="btn btn-link p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              &#x22EE;
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item edit-task" href="#" data-id="${row.id}">
+                  <i class="bi bi-pencil"></i> Edit
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item delete-task" href="#" data-id="${row.id}">
+                  <i class="bi bi-trash"></i> Delete
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item view-task" href="#" data-id="${row.id}">
+                  <i class="bi bi-eye"></i> View Details
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="card-title">${row.title}</h5>
+              <p class="card-text">${shortDescription}</p>
+              <p class="reward">Reward: $${row.reward.toFixed(5)}</p>
+            </div>
+            <div class="button-container">
+              <!-- Start Task button using standard btn-primary -->
+              <button class="btn btn-primary btn-sm start-task" data-id="${row.id}" title="Start Task">
+                <i class="bi bi-play-fill"></i> Start Task
+              </button>
+              <!-- Confirm Task button will be added dynamically with btn-modern-green -->
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    // Initialize Bootstrap Table (search disabled)
+    $('#task-table').bootstrapTable({
+      classes: "table",
+      data: tasks,
+      pagination: false,
+      search: false,
+      showHeader: false,
+      columns: [{
+        field: 'id',
+        formatter: cardFormatter
+      }]
+    });
+  });
+</script>
+  
+</body>
+</html>
