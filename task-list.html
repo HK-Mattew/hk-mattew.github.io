@@ -19,35 +19,52 @@
       font-family: 'Roboto', sans-serif;
     }
     
-    /* Keyframes for the moving sparkle effect */
-    @keyframes sparkle {
-      0% { background-position: 0 0; }
-      100% { background-position: 100% 100%; }
-    }
-    
-    /* Banner card styles com fundo roxo moderno e efeito de sparkle */
+    /* Banner card styles com fundo roxo moderno */
     .banner-card {
       position: relative;
       background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
       color: #fff;
       border: none;
       border-radius: 10px;
-      overflow: hidden; /* Garante que o efeito não ultrapasse os limites */
+      overflow: hidden;
     }
-    /* Pseudo-elemento ::before para efeito de sparkle em pontos que se movem */
+    
+    /* Sparkle effect: primeiro sparkle */
     .banner-card::before {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      /* Cria um padrão de pequenos pontos */
-      background: repeating-radial-gradient(circle, rgba(255,255,255,0.3) 0, rgba(255,255,255,0.3) 1px, transparent 1px, transparent 15px);
-      opacity: 0.4;
-      animation: sparkle 8s linear infinite;
+      width: 15px;
+      height: 15px;
+      background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+      top: 20%;
+      left: -20px;
+      animation: moveSparkle 6s linear infinite;
       pointer-events: none;
-      z-index: 0;
+      opacity: 0.8;
+    }
+    @keyframes moveSparkle {
+      0%   { left: -20px; top: 20%; opacity: 0.8; }
+      50%  { left: 110%; top: 40%; opacity: 1; }
+      100% { left: -20px; top: 20%; opacity: 0.8; }
+    }
+    
+    /* Sparkle effect: segundo sparkle */
+    .banner-card::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, transparent 70%);
+      top: 60%;
+      left: -20px;
+      animation: moveSparkle2 8s linear infinite;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    @keyframes moveSparkle2 {
+      0%   { left: -20px; top: 60%; opacity: 0.7; }
+      50%  { left: 110%; top: 80%; opacity: 1; }
+      100% { left: -20px; top: 60%; opacity: 0.7; }
     }
     
     /* Banner content remains above the sparkle effect */
@@ -61,7 +78,7 @@
     .banner-card .card-title {
       margin-bottom: 0.5rem;
     }
-    /* Link in the banner: cor amarela e sem sublinhado */
+    /* Link no banner: cor amarela, sem sublinhado */
     .banner-card a {
       color: #FFC107;
       text-decoration: none;
@@ -81,8 +98,6 @@
     #task-table td {
       border: none !important;
     }
-    
-    /* No hover background on table rows */
     .table tbody tr:hover,
     .table-hover tbody tr:hover,
     .table tbody tr:hover > td,
@@ -151,7 +166,7 @@
       transform: scale(1.05);
     }
     
-    /* Start Task button: uses standard btn-primary */
+    /* Start Task button: standard btn-primary */
     
     /* Confirm Task button: modern green */
     .btn-modern-green {
@@ -187,7 +202,7 @@
       right: 10px;
     }
     
-    /* Media query for small screens */
+    /* Media query for increasing button size on small screens */
     @media (max-width: 576px) {
       .start-task, .confirm-task {
         font-size: 1rem;
@@ -286,7 +301,7 @@
       `;
     }
     
-    // Initialize the Bootstrap Table with settings (search disabled)
+    // Initialize Bootstrap Table (search disabled)
     $('#task-table').bootstrapTable({
       classes: "table",
       data: tasks,
@@ -299,14 +314,14 @@
       }]
     });
     
-    // Event for Start Task button
+    // Event for the Start Task button
     $(document).on('click', '.start-task', function(e) {
       e.preventDefault();
       const $startBtn = $(this);
       const taskId = $startBtn.data('id');
       const $buttonContainer = $startBtn.parent();
       
-      // Remove the title attribute to avoid tooltip display
+      // Remove title attribute
       $startBtn.removeAttr('title');
       
       // If Confirm Task button doesn't exist, add it
@@ -320,19 +335,19 @@
       }
     });
     
-    // Event for Confirm Task button
+    // Event for the Confirm Task button
     $(document).on('click', '.confirm-task', function(e) {
       e.preventDefault();
       const $confirmBtn = $(this);
       const taskId = $confirmBtn.data('id');
       const task = tasks.find(t => t.id === taskId);
       alert("Task " + taskId + " confirmed! You earned $" + task.reward.toFixed(5));
-      // Disable both buttons to avoid duplicate actions
+      // Disable both buttons
       $confirmBtn.prop('disabled', true);
       $confirmBtn.siblings('.start-task').prop('disabled', true);
     });
     
-    // Dropdown buttons events
+    // Events for dropdown buttons
     $(document).on('click', '.edit-task', function(e) {
       e.preventDefault();
       const taskId = $(this).data('id');
