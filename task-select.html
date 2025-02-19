@@ -8,8 +8,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         #content {
-            min-height: 200px; 
-            border: 1px solid #ccc; 
+            min-height: 200px;
+            border: 1px solid #ccc;
             padding: 15px;
             margin-top: 20px;
             border-radius: 5px;
@@ -27,9 +27,9 @@
         <h3 class="mb-3">Selecione uma opção</h3>
         <select id="pageSelector" class="form-select">
             <option value="" selected disabled>Escolha uma opção</option>
-            <option value="page1.html">Página 1</option>
-            <option value="page2.html">Página 2</option>
-            <option value="page3.html">Página 3</option>
+            <option value="page1">Página 1</option>
+            <option value="page2">Página 2</option>
+            <option value="page3">Página 3</option>
         </select>
 
         <div id="content">
@@ -39,17 +39,21 @@
 
     <script>
         $(document).ready(function () {
+            var contents = {
+                "page1": "<h4>Página 1</h4><p>Este é o conteúdo da Página 1. Aqui você pode adicionar qualquer informação relevante.</p>",
+                "page2": "<h4>Página 2</h4><p>Bem-vindo à Página 2. Este conteúdo é diferente e pode conter imagens, textos e mais.</p>",
+                "page3": "<h4>Página 3</h4><p>Você está na Página 3! Aqui estão algumas informações adicionais.</p>"
+            };
+
             $("#pageSelector").change(function () {
-                var page = $(this).val();
-                
-                if (page) {
+                var selectedPage = $(this).val();
+
+                if (selectedPage) {
                     $("#content").html('<div class="loading"><div class="spinner-border text-primary" role="status"></div> <p>Carregando...</p></div>');
-                    
-                    $("#content").load(page, function (response, status, xhr) {
-                        if (status == "error") {
-                            $("#content").html('<div class="alert alert-danger">Erro ao carregar o conteúdo.</div>');
-                        }
-                    });
+
+                    setTimeout(function () {
+                        $("#content").html(contents[selectedPage]);
+                    }, 500);
                 }
             });
         });
