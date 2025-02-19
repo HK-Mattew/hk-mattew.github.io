@@ -30,11 +30,21 @@
       margin-bottom: 0.5rem;
     }
     .banner-card a {
-      color: #0d6efd;
+      color: #FFC107; /* Modern yellow */
       text-decoration: underline;
     }
     .banner-card a:hover {
       text-decoration: none;
+    }
+    /* Layout do banner: ícone à esquerda e texto à direita */
+    .banner-card .card-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .banner-icon {
+      margin-right: 1rem;
+      font-size: 2rem;
     }
     
     /* Remove table borders */
@@ -114,8 +124,7 @@
       transform: scale(1.05);
     }
     
-    /* Botão Start Task: utiliza o btn-primary padrão */
-    /* Não há necessidade de customização extra */
+    /* Botão Start Task: utiliza a classe btn-primary padrão do Bootstrap 5 */
     
     /* Botão Confirm Task: verde moderno e discreto */
     .btn-modern-green {
@@ -131,7 +140,7 @@
     
     /* Dropdown styling */
     .dropdown-toggle::after {
-      display: none;
+      display: none; /* Remove default arrow */
     }
     .btn-link.dropdown-toggle,
     .btn-link.dropdown-toggle:hover,
@@ -165,11 +174,16 @@
 <div class="container mt-4">
   <!-- Banner card above the table -->
   <div class="card banner-card mb-4">
-    <div class="card-body text-center">
-      <h4 class="card-title">Advertise Your Task!</h4>
-      <p class="card-text">
-        <a href="https://example.com/advertise">Click here to post your task and get it featured!</a>
-      </p>
+    <div class="card-body">
+      <div class="banner-icon">
+        <i class="bi bi-megaphone"></i>
+      </div>
+      <div>
+        <h4 class="card-title mb-2">Advertise Your Task!</h4>
+        <p class="card-text mb-0">
+          <a href="https://example.com/advertise">Click here to post your task and get it featured!</a>
+        </p>
+      </div>
     </div>
   </div>
   
@@ -202,7 +216,7 @@
       
       return `
         <div class="card shadow-sm mb-3">
-          <!-- Dropdown menu at the top right -->
+          <!-- Dropdown menu on the top right -->
           <div class="dropdown">
             <button class="btn btn-link p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               &#x22EE;
@@ -232,7 +246,7 @@
               <p class="reward">Reward: $${row.reward.toFixed(5)}</p>
             </div>
             <div class="button-container">
-              <!-- Start Task button using the standard btn-primary -->
+              <!-- Start Task button: uses standard btn-primary -->
               <button class="btn btn-primary btn-sm start-task" data-id="${row.id}" title="Start Task">
                 <i class="bi bi-play-fill"></i> Start Task
               </button>
@@ -243,7 +257,7 @@
       `;
     }
     
-    // Initialize the Bootstrap Table with the desired settings
+    // Initialize Bootstrap Table with specified settings
     $('#task-table').bootstrapTable({
       classes: "table",
       data: tasks,
