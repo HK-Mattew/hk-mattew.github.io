@@ -27,7 +27,7 @@
       border: none !important;
     }
     
-    /* Garante que não haja fundo de hover nas linhas */
+    /* Remove hover background for table rows */
     .table tbody tr:hover,
     .table-hover tbody tr:hover,
     .table tbody tr:hover > td,
@@ -35,7 +35,7 @@
       background-color: transparent !important;
     }
     
-    /* Card styles com gradiente sutil */
+    /* Card styles with subtle gradient */
     .card {
       background: linear-gradient(135deg, #ffffff, #f8f9fa);
       border: 1px solid #ddd;
@@ -71,7 +71,7 @@
       margin-bottom: 0;
     }
     
-    /* Botão container - empilhado verticalmente com margem para afastar da borda direita */
+    /* Button container: vertical layout com margem à direita */
     .button-container {
       display: flex;
       flex-direction: column;
@@ -96,25 +96,18 @@
       transform: scale(1.05);
     }
     
-    /* Botão Start Task com gradiente azul */
-    .btn-blue-gradient {
-      background: linear-gradient(45deg, #0d6efd, #0b5ed7);
-      border: none;
-      color: #fff;
-    }
-    .btn-blue-gradient:hover:not(:disabled) {
-      background: linear-gradient(45deg, #0b5ed7, #0d6efd);
-    }
+    /* Botão Start Task: padrão btn-primary do Bootstrap 5 */
+    /* Nada a adicionar, usaremos a classe btn-primary */
     
-    /* Botão Confirm Task mantendo btn-info */
-    .btn-info {
-      background-color: #17a2b8;
-      border-color: #17a2b8;
+    /* Botão Confirm Task: verde moderno e discreto */
+    .btn-modern-green {
+      background-color: #2ecc71;
+      border-color: #2ecc71;
       color: #fff;
     }
-    .btn-info:hover:not(:disabled) {
-      background-color: #138496;
-      border-color: #117a8b;
+    .btn-modern-green:hover:not(:disabled) {
+      background-color: #27ae60;
+      border-color: #27ae60;
     }
     
     /* Dropdown styling */
@@ -164,7 +157,7 @@
       { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
     
-    // Formatter que renderiza o card com abreviação da descrição se >25 caracteres
+    // Formatter para renderizar o card (abrevia a descrição se >25 caracteres)
     function cardFormatter(value, row, index) {
       let shortDescription = row.description;
       if (shortDescription.length > 25) {
@@ -203,11 +196,11 @@
               <p class="reward">Reward: $${row.reward.toFixed(5)}</p>
             </div>
             <div class="button-container">
-              <!-- Botão Start Task com gradiente azul -->
-              <button class="btn btn-blue-gradient btn-sm start-task" data-id="${row.id}" title="Start Task">
+              <!-- Botão Start Task: utiliza btn-primary -->
+              <button class="btn btn-primary btn-sm start-task" data-id="${row.id}" title="Start Task">
                 <i class="bi bi-play-fill"></i> Start Task
               </button>
-              <!-- O botão Confirm Task será adicionado aqui dinamicamente -->
+              <!-- O botão Confirm Task será adicionado aqui dinamicamente com btn-modern-green -->
             </div>
           </div>
         </div>
@@ -240,7 +233,7 @@
       // Se o botão de Confirm Task ainda não existir, adiciona-o
       if ($buttonContainer.find('.confirm-task').length === 0) {
         const confirmButton = `
-          <button class="btn btn-info btn-sm confirm-task" data-id="${taskId}" title="Confirm Task">
+          <button class="btn btn-modern-green btn-sm confirm-task" data-id="${taskId}" title="Confirm Task">
             <i class="bi bi-check-lg"></i> Confirm Task
           </button>
         `;
