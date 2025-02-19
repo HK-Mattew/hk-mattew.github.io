@@ -19,9 +19,9 @@
       font-family: 'Roboto', sans-serif;
     }
     
-    /* Banner card styles com fundo roxo moderno */
+    /* Banner card styles com fundo amarelo moderno */
     .banner-card {
-      background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
+      background: linear-gradient(135deg, #FFEB3B, #FFC107) !important;
       color: #fff;
       border: none;
       border-radius: 10px;
@@ -29,12 +29,13 @@
     .banner-card .card-title {
       margin-bottom: 0.5rem;
     }
+    /* Link clicável no banner agora usa a cor primária do Bootstrap 5 */
     .banner-card a {
-      color: #FFC107; /* Modern yellow */
-      text-decoration: none; /* Remove underline */
+      color: #0d6efd;
+      text-decoration: none;
     }
     .banner-card a:hover {
-      text-decoration: none;
+      text-decoration: underline;
     }
     /* Layout do banner: ícone à esquerda e texto à direita */
     .banner-card .card-body {
@@ -174,7 +175,7 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Task List</h2>
   
-  <!-- Banner card abaixo do título "Task List" -->
+  <!-- Banner card logo abaixo do título "Task List" -->
   <div class="card banner-card mb-4">
     <div class="card-body">
       <div class="banner-icon">
