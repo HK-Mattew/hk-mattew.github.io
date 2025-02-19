@@ -14,21 +14,23 @@
             background-color: #ffffff;
             border-top: 1px solid #e0e0e0;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: 60px; /* Diminuindo a altura da navbar */
+            padding: 0;
         }
 
         .nav-item {
             flex: 1;
             text-align: center;
-            padding: 10px;
         }
 
         .nav-link {
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-size: 18px;
+            font-size: 16px; /* Ajustando o tamanho da fonte */
             color: #6c757d;
             text-decoration: none;
+            padding: 10px 0;
         }
 
         .nav-link:hover {
@@ -36,7 +38,7 @@
         }
 
         .material-icons {
-            font-size: 30px;
+            font-size: 24px; /* Diminuindo o tamanho dos ícones */
             margin-bottom: 5px;
         }
 
@@ -51,7 +53,7 @@
 
         .navbar-nav {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             width: 100%;
         }
 
@@ -59,6 +61,13 @@
         .navbar-nav .nav-item .nav-link.active {
             color: #007bff;
             font-weight: bold;
+        }
+
+        /* Ajuste para dispositivos móveis */
+        @media (max-width: 576px) {
+            .nav-item {
+                flex: 1;
+            }
         }
     </style>
 </head>
