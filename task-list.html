@@ -21,8 +21,8 @@
     
     /* Banner card styles */
     .banner-card {
-      background: linear-gradient(135deg, #0d6efd, #0b5ed7);
-      color: #fff;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      color: #000;
       border: none;
       border-radius: 10px;
     }
@@ -30,7 +30,7 @@
       margin-bottom: 0.5rem;
     }
     .banner-card a {
-      color: #fff;
+      color: #0d6efd;
       text-decoration: underline;
     }
     .banner-card a:hover {
@@ -115,6 +115,7 @@
     }
     
     /* Botão Start Task: utiliza o btn-primary padrão */
+    /* Não há necessidade de customização extra */
     
     /* Botão Confirm Task: verde moderno e discreto */
     .btn-modern-green {
@@ -150,7 +151,7 @@
       right: 10px;
     }
     
-    /* Media query para aumentar os botões em dispositivos móveis */
+    /* Media query to increase button size on small screens */
     @media (max-width: 576px) {
       .start-task, .confirm-task {
         font-size: 1rem;
@@ -162,7 +163,7 @@
 <body>
   
 <div class="container mt-4">
-  <!-- Banner card acima da tabela -->
+  <!-- Banner card above the table -->
   <div class="card banner-card mb-4">
     <div class="card-body text-center">
       <h4 class="card-title">Advertise Your Task!</h4>
@@ -174,11 +175,11 @@
   
   <h2 class="text-center mb-4">Task List</h2>
   
-  <!-- Tabela Bootstrap Table (inicializada manualmente) -->
+  <!-- Bootstrap Table (initialized manually) -->
   <table id="task-table"></table>
 </div>
   
-<!-- jQuery, Bootstrap Table JS e Bootstrap Bundle com Popper -->
+<!-- jQuery, Bootstrap Table JS and Bootstrap Bundle with Popper -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -192,7 +193,7 @@
       { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
     
-    // Formatter para renderizar o card com a descrição abreviada se >25 caracteres
+    // Formatter to render a card with a shortened description if >25 characters
     function cardFormatter(value, row, index) {
       let shortDescription = row.description;
       if (shortDescription.length > 25) {
@@ -201,7 +202,7 @@
       
       return `
         <div class="card shadow-sm mb-3">
-          <!-- Dropdown menu no canto superior direito -->
+          <!-- Dropdown menu at the top right -->
           <div class="dropdown">
             <button class="btn btn-link p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               &#x22EE;
@@ -231,18 +232,18 @@
               <p class="reward">Reward: $${row.reward.toFixed(5)}</p>
             </div>
             <div class="button-container">
-              <!-- Botão Start Task: usa btn-primary padrão -->
+              <!-- Start Task button using the standard btn-primary -->
               <button class="btn btn-primary btn-sm start-task" data-id="${row.id}" title="Start Task">
                 <i class="bi bi-play-fill"></i> Start Task
               </button>
-              <!-- O botão Confirm Task será adicionado aqui dinamicamente com btn-modern-green -->
+              <!-- Confirm Task button will be added dynamically with btn-modern-green -->
             </div>
           </div>
         </div>
       `;
     }
     
-    // Inicializa o Bootstrap Table definindo apenas a classe "table"
+    // Initialize the Bootstrap Table with the desired settings
     $('#task-table').bootstrapTable({
       classes: "table",
       data: tasks,
@@ -255,17 +256,17 @@
       }]
     });
     
-    // Evento para o botão de iniciar tarefa (Start Task)
+    // Event for the Start Task button
     $(document).on('click', '.start-task', function(e) {
       e.preventDefault();
       const $startBtn = $(this);
       const taskId = $startBtn.data('id');
       const $buttonContainer = $startBtn.parent();
       
-      // Remove o atributo title para não mostrar tooltip
+      // Remove the title attribute to prevent tooltip display
       $startBtn.removeAttr('title');
       
-      // Se o botão de Confirm Task não existir, adiciona-o
+      // If the Confirm Task button doesn't exist, add it
       if ($buttonContainer.find('.confirm-task').length === 0) {
         const confirmButton = `
           <button class="btn btn-modern-green btn-sm confirm-task" data-id="${taskId}" title="Confirm Task">
@@ -276,19 +277,19 @@
       }
     });
     
-    // Evento para o botão de confirmar tarefa (Confirm Task)
+    // Event for the Confirm Task button
     $(document).on('click', '.confirm-task', function(e) {
       e.preventDefault();
       const $confirmBtn = $(this);
       const taskId = $confirmBtn.data('id');
       const task = tasks.find(t => t.id === taskId);
       alert("Task " + taskId + " confirmed! You earned $" + task.reward.toFixed(5));
-      // Desabilita ambos os botões para evitar ações duplicadas
+      // Disable both buttons to prevent duplicate actions
       $confirmBtn.prop('disabled', true);
       $confirmBtn.siblings('.start-task').prop('disabled', true);
     });
     
-    // Eventos para os botões do dropdown
+    // Event delegation for dropdown buttons
     $(document).on('click', '.edit-task', function(e) {
       e.preventDefault();
       const taskId = $(this).data('id');
