@@ -56,6 +56,7 @@
             width: 100%;
             padding: 0;
             margin: 0;
+            flex-wrap: nowrap; /* Não permite que os itens se empilhem */
         }
 
         /* Estilo de ativação da seção */
@@ -67,13 +68,14 @@
         /* Ajuste para dispositivos móveis */
         @media (max-width: 576px) {
             .navbar-nav {
-                flex-wrap: nowrap; /* Impede que as seções se empilhem */
+                flex-wrap: wrap; /* Permite que as seções se ajustem corretamente nas telas pequenas */
                 justify-content: space-evenly; /* Garante uma distribuição mais balanceada */
             }
 
             .nav-item {
                 flex: 1; /* Garante que cada item ocupe a mesma quantidade de espaço */
                 width: 25%; /* Ajusta o tamanho de cada item na tela pequena */
+                box-sizing: border-box;
             }
 
             .nav-link {
