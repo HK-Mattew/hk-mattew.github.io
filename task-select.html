@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Load Content via Select</title>
+    <title>Load Content via Dropdown</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -29,12 +29,10 @@
             text-align: center;
             padding: 20px;
         }
-        .form-select {
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
-        .form-select:hover {
-            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
     </style>
 </head>
@@ -42,17 +40,16 @@
 
     <div class="container">
         <h3 class="mb-3 text-center">Select Task Type</h3>
-        
-        <div class="input-group">
-            <span class="input-group-text bg-primary text-white">
-                <i class="bi bi-list-task"></i>
-            </span>
-            <select id="pageSelector" class="form-select">
-                <option value="" selected disabled>Choose an option</option>
-                <option value="page1">Task Type 1</option>
-                <option value="page2">Task Type 2</option>
-                <option value="page3">Task Type 3</option>
-            </select>
+
+        <div class="dropdown w-100">
+            <button class="btn btn-primary w-100 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-list-task"></i> Choose an option
+            </button>
+            <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="#" data-value="page1"><i class="bi bi-pencil-square"></i> Task Type 1</a></li>
+                <li><a class="dropdown-item" href="#" data-value="page2"><i class="bi bi-check2-square"></i> Task Type 2</a></li>
+                <li><a class="dropdown-item" href="#" data-value="page3"><i class="bi bi-gear"></i> Task Type 3</a></li>
+            </ul>
         </div>
 
         <div id="content" class="card mt-4">
@@ -65,9 +62,9 @@
     <script>
         $(document).ready(function () {
             var contents = {
-                "page1": "<h4 class='text-primary'>Task Type 1</h4><p>This is the content for Task Type 1. You can add any relevant information here.</p>",
-                "page2": "<h4 class='text-success'>Task Type 2</h4><p>Welcome to Task Type 2. This content is different and may include images, text, and more.</p>",
-                "page3": "<h4 class='text-danger'>Task Type 3</h4><p>You are now viewing Task Type 3! Here is some additional information.</p>"
+                "page1": "<h4 class='text-primary'><i class='bi bi-pencil-square'></i> Task Type 1</h4><p>This is the content for Task Type 1. You can add any relevant information here.</p>",
+                "page2": "<h4 class='text-success'><i class='bi bi-check2-square'></i> Task Type 2</h4><p>Welcome to Task Type 2. This content is different and may include images, text, and more.</p>",
+                "page3": "<h4 class='text-danger'><i class='bi bi-gear'></i> Task Type 3</h4><p>You are now viewing Task Type 3! Here is some additional information.</p>"
             };
 
             function getQueryParam(param) {
@@ -75,9 +72,10 @@
                 return urlParams.get(param);
             }
 
-            function loadContent(taskType) {
+            function loadContent(taskType, taskText, iconClass) {
                 if (contents[taskType]) {
-                    $("#pageSelector").val(taskType);
+                    $("#dropdownMenuButton").html(`<i class="${iconClass}"></i> ${taskText}`);
+
                     $("#content .card-body").fadeOut(200, function () {
                         $(this).html('<div class="loading"><div class="spinner-border text-primary" role="status"></div> <p>Loading...</p></div>').fadeIn(200);
                     });
@@ -93,13 +91,30 @@
             // Load content if "task" is in the URL when the page loads
             var taskFromURL = getQueryParam("task");
             if (taskFromURL) {
-                loadContent(taskFromURL);
+                var defaultText = "Choose an option";
+                var defaultIcon = "bi-list-task";
+
+                if (taskFromURL === "page1") {
+                    defaultText = "Task Type 1";
+                    defaultIcon = "bi-pencil-square";
+                } else if (taskFromURL === "page2") {
+                    defaultText = "Task Type 2";
+                    defaultIcon = "bi-check2-square";
+                } else if (taskFromURL === "page3") {
+                    defaultText = "Task Type 3";
+                    defaultIcon = "bi-gear";
+                }
+
+                loadContent(taskFromURL, defaultText, defaultIcon);
             }
 
-            $("#pageSelector").change(function () {
-                var selectedTask = $(this).val();
+            $(".dropdown-item").click(function () {
+                var selectedTask = $(this).data("value");
+                var taskText = $(this).text().trim();
+                var iconClass = $(this).find("i").attr("class");
+
                 if (selectedTask) {
-                    loadContent(selectedTask);
+                    loadContent(selectedTask, taskText, iconClass);
                 }
             });
         });
