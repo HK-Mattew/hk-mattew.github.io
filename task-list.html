@@ -47,12 +47,8 @@
       transform: translateY(-3px);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
-    .card.completed {
-      border: 2px solid #198754;
-      opacity: 0.7;
-    }
     
-    /* Card body layout: lado esquerdo para os textos e lado direito para o botão */
+    /* Card body layout */
     .card-body {
       display: flex;
       justify-content: space-between;
@@ -75,12 +71,12 @@
       margin-bottom: 0;
     }
     
-    /* Botão Complete com transição */
-    .complete-task {
+    /* Botão de iniciar/confirmar tarefa */
+    .start-task {
       white-space: nowrap;
       transition: background-color 0.2s, transform 0.2s;
     }
-    .complete-task:hover:not(:disabled) {
+    .start-task:hover:not(:disabled) {
       background-color: #0069d9;
       transform: scale(1.05);
     }
@@ -125,7 +121,6 @@
   
 <script>
   $(document).ready(function(){
-    // Array de tarefas
     const tasks = [
       { id: 1, title: "Go shopping", description: "Buy milk and bread", reward: 0.00032 },
       { id: 2, title: "Send report", description: "Monthly report for the manager", reward: 0.00032 },
@@ -133,7 +128,7 @@
       { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
     
-    // Formatter para renderizar os cards (abrevia a descrição se maior que 25 caracteres)
+    // Formatter que renderiza o card com abreviação da descrição se >25 caracteres
     function cardFormatter(value, row, index) {
       let shortDescription = row.description;
       if (shortDescription.length > 25) {
@@ -171,8 +166,8 @@
               <p class="card-text">${shortDescription}</p>
               <p class="reward">Reward: $${row.reward.toFixed(5)}</p>
             </div>
-            <button class="btn btn-success btn-sm complete-task" data-id="${row.id}" data-bs-toggle="tooltip" title="Mark as Completed">
-              <i class="bi bi-check-lg"></i>
+            <button class="btn btn-success btn-sm start-task" data-id="${row.id}" data-started="false" data-bs-toggle="tooltip" title="Start Task">
+              <i class="bi bi-play-fill"></i> Start Task
             </button>
           </div>
         </div>
@@ -192,17 +187,29 @@
       }]
     });
     
-    // Delegação de eventos para botões gerados dinamicamente
-    $(document).on('click', '.complete-task', function(e){
+    // Evento para o botão de iniciar/confirmar tarefa
+    $(document).on('click', '.start-task', function(e){
       e.preventDefault();
-      const taskId = $(this).data('id');
-      const task = tasks.find(t => t.id === taskId);
-      alert("Task " + taskId + " completed! You earned $" + task.reward.toFixed(5));
-      // Marca visualmente o card como concluído e desabilita o botão
-      const card = $(this).closest('.card');
-      card.addClass('completed');
-      $(this).prop('disabled', true);
+      const $btn = $(this);
+      const taskId = $btn.data('id');
+      
+      // Verifica se a tarefa já foi iniciada
+      if ($btn.data('started') === false) {
+        // Altera para "Confirm Task"
+        $btn.data('started', true);
+        $btn.removeClass('btn-success').addClass('btn-primary');
+        $btn.html('<i class="bi bi-check-lg"></i> Confirm Task');
+        $btn.attr('title', 'Confirm Task').tooltip('dispose').tooltip();
+      } else {
+        // Se já está em "Confirm Task", confirma a ação
+        const task = tasks.find(t => t.id === taskId);
+        alert("Task " + taskId + " confirmed! You earned $" + task.reward.toFixed(5));
+        // Opcional: desabilitar o botão após confirmar
+        $btn.prop('disabled', true);
+      }
     });
+    
+    // Delegação de eventos para os outros botões do dropdown
     $(document).on('click', '.edit-task', function(e){
       e.preventDefault();
       const taskId = $(this).data('id');
@@ -219,10 +226,10 @@
       alert("View details of task " + taskId);
     });
     
-    // Inicializa os tooltips (para elementos adicionados dinamicamente, recarregue se necessário)
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    // Inicializa os tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new bootstrap.Tooltip(tooltipTriggerEl)
+      return new bootstrap.Tooltip(tooltipTriggerEl);
     });
   });
 </script>
