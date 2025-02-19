@@ -48,7 +48,7 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
     
-    /* Card body: dividindo em duas colunas (texto e botões) */
+    /* Card body layout */
     .card-body {
       display: flex;
       justify-content: space-between;
@@ -71,11 +71,12 @@
       margin-bottom: 0;
     }
     
-    /* Botões empilhados verticalmente */
+    /* Botão container - empilhado verticalmente e ajustado para ficar mais próximo do menu dropdown */
     .button-container {
       display: flex;
       flex-direction: column;
       align-items: stretch;
+      margin-top: -10px;  /* Ajusta para trazer os botões para cima */
     }
     .button-container > button {
       margin-bottom: 0.5rem;
@@ -84,7 +85,7 @@
       margin-bottom: 0;
     }
     
-    /* Botões com transição */
+    /* Estilos dos botões com transição */
     .start-task,
     .confirm-task {
       white-space: nowrap;
@@ -94,6 +95,26 @@
     .confirm-task:hover:not(:disabled) {
       background-color: #0069d9;
       transform: scale(1.05);
+    }
+    
+    /* Cores dos botões: Start Task com tom discreto e Confirm Task em btn-info */
+    .btn-secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+      color: #fff;
+    }
+    .btn-secondary:hover {
+      background-color: #5a6268;
+      border-color: #545b62;
+    }
+    .btn-info {
+      background-color: #17a2b8;
+      border-color: #17a2b8;
+      color: #fff;
+    }
+    .btn-info:hover {
+      background-color: #138496;
+      border-color: #117a8b;
     }
     
     /* Dropdown styling */
@@ -143,7 +164,7 @@
       { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
     
-    // Formatter para renderizar o card com abreviação da descrição se >25 caracteres
+    // Formatter que renderiza o card com abreviação da descrição se >25 caracteres
     function cardFormatter(value, row, index) {
       let shortDescription = row.description;
       if (shortDescription.length > 25) {
@@ -154,22 +175,22 @@
         <div class="card shadow-sm mb-3">
           <!-- Dropdown menu no canto superior direito -->
           <div class="dropdown">
-            <button class="btn btn-link p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Options">
+            <button class="btn btn-link p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Options">
               &#x22EE;
             </button>
             <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item edit-task" href="#" data-id="${row.id}" data-bs-toggle="tooltip" title="Edit Task">
+                <a class="dropdown-item edit-task" href="#" data-id="${row.id}" title="Edit Task">
                   <i class="bi bi-pencil"></i> Edit
                 </a>
               </li>
               <li>
-                <a class="dropdown-item delete-task" href="#" data-id="${row.id}" data-bs-toggle="tooltip" title="Delete Task">
+                <a class="dropdown-item delete-task" href="#" data-id="${row.id}" title="Delete Task">
                   <i class="bi bi-trash"></i> Delete
                 </a>
               </li>
               <li>
-                <a class="dropdown-item view-task" href="#" data-id="${row.id}" data-bs-toggle="tooltip" title="View Task Details">
+                <a class="dropdown-item view-task" href="#" data-id="${row.id}" title="View Task Details">
                   <i class="bi bi-eye"></i> View Details
                 </a>
               </li>
@@ -182,10 +203,11 @@
               <p class="reward">Reward: $${row.reward.toFixed(5)}</p>
             </div>
             <div class="button-container">
-              <button class="btn btn-success btn-sm start-task" data-id="${row.id}" data-bs-toggle="tooltip" title="Start Task">
+              <!-- Botão Start Task com cor discreta (btn-secondary) -->
+              <button class="btn btn-secondary btn-sm start-task" data-id="${row.id}" title="Start Task">
                 <i class="bi bi-play-fill"></i> Start Task
               </button>
-              <!-- O botão de Confirm Task será adicionado aqui dinamicamente -->
+              <!-- O botão Confirm Task será adicionado aqui dinamicamente -->
             </div>
           </div>
         </div>
@@ -211,16 +233,21 @@
       const $startBtn = $(this);
       const taskId = $startBtn.data('id');
       const $buttonContainer = $startBtn.parent(); // Container dos botões
-      // Se o botão de confirmar ainda não existir, adiciona-o
+      
+      // Remove o atributo title para evitar que o tooltip permaneça
+      $startBtn.removeAttr('title');
+      
+      // Se o botão de Confirm Task ainda não existir, adiciona-o
       if ($buttonContainer.find('.confirm-task').length === 0) {
         const confirmButton = `
-          <button class="btn btn-primary btn-sm confirm-task" data-id="${taskId}" data-bs-toggle="tooltip" title="Confirm Task">
+          <button class="btn btn-info btn-sm confirm-task" data-id="${taskId}" title="Confirm Task">
             <i class="bi bi-check-lg"></i> Confirm Task
           </button>
         `;
         $buttonContainer.append(confirmButton);
+        
         // Re-inicializa os tooltips para os novos elementos
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
         tooltipTriggerList.map(function (tooltipTriggerEl) {
           return new bootstrap.Tooltip(tooltipTriggerEl);
         });
@@ -234,7 +261,7 @@
       const taskId = $confirmBtn.data('id');
       const task = tasks.find(t => t.id === taskId);
       alert("Task " + taskId + " confirmed! You earned $" + task.reward.toFixed(5));
-      // Desabilita os botões para evitar ações duplicadas
+      // Desabilita ambos os botões para evitar ações duplicadas
       $confirmBtn.prop('disabled', true);
       $confirmBtn.siblings('.start-task').prop('disabled', true);
     });
@@ -257,7 +284,7 @@
     });
     
     // Inicializa os tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
     tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new bootstrap.Tooltip(tooltipTriggerEl);
     });
