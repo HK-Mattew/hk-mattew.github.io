@@ -19,26 +19,54 @@
       font-family: 'Roboto', sans-serif;
     }
     
-    /* Keyframes para o efeito de animação no fundo do banner */
-    @keyframes backgroundMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    /* Keyframes para animação de brilho */
+    @keyframes shine {
+      0% {
+        left: -100%;
+      }
+      50% {
+        left: 100%;
+      }
+      100% {
+        left: 100%;
+      }
     }
     
-    /* Banner card styles com gradiente roxo moderno e animação intensificada */
+    /* Banner card styles com fundo roxo moderno e efeito de brilho */
     .banner-card {
+      position: relative;
       background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
       background-size: 300% 300%;
       animation: backgroundMove 5s ease infinite;
       color: #fff;
       border: none;
       border-radius: 10px;
+      overflow: hidden; /* Garante que o brilho não ultrapasse os limites */
     }
+    /* Animação de movimento do fundo (já existente) */
+    @keyframes backgroundMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Pseudo-elemento para o efeito de brilho */
+    .banner-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+      transform: skewX(-20deg);
+      animation: shine 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    
     .banner-card .card-title {
       margin-bottom: 0.5rem;
     }
-    /* Link clicável no banner permanece em amarelo moderno */
+    /* Link clicável no banner: cor amarela e sem underline */
     .banner-card a {
       color: #FFC107;
       text-decoration: none;
@@ -51,6 +79,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+      z-index: 1; /* Garante que o conteúdo fique acima do brilho */
     }
     .banner-icon {
       margin-right: 1rem;
@@ -73,7 +103,7 @@
       background-color: transparent !important;
     }
     
-    /* Card styles with subtle gradient */
+    /* Card styles for tasks with subtle gradient */
     .card {
       background: linear-gradient(135deg, #ffffff, #f8f9fa);
       border: 1px solid #ddd;
@@ -135,7 +165,6 @@
     }
     
     /* Botão Start Task: utiliza o btn-primary padrão do Bootstrap 5 */
-    
     /* Botão Confirm Task: verde moderno e discreto */
     .btn-modern-green {
       background-color: #2ecc71;
@@ -170,7 +199,7 @@
       right: 10px;
     }
     
-    /* Media query to increase button size on small screens */
+    /* Media query for increasing button size on small screens */
     @media (max-width: 576px) {
       .start-task, .confirm-task {
         font-size: 1rem;
@@ -184,7 +213,7 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Task List</h2>
   
-  <!-- Banner card positioned below the title "Task List" -->
+  <!-- Banner card positioned below the title -->
   <div class="card banner-card mb-4">
     <div class="card-body">
       <div class="banner-icon">
@@ -269,7 +298,7 @@
       `;
     }
     
-    // Initialize Bootstrap Table with specified settings (search disabled)
+    // Initialize the Bootstrap Table with specified settings (search disabled)
     $('#task-table').bootstrapTable({
       classes: "table",
       data: tasks,
@@ -310,7 +339,7 @@
       const taskId = $confirmBtn.data('id');
       const task = tasks.find(t => t.id === taskId);
       alert("Task " + taskId + " confirmed! You earned $" + task.reward.toFixed(5));
-      // Disable both buttons to prevent duplicate actions
+      // Disable both buttons to avoid duplicate actions
       $confirmBtn.prop('disabled', true);
       $confirmBtn.siblings('.start-task').prop('disabled', true);
     });
