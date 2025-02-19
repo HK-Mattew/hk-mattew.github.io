@@ -21,8 +21,8 @@
     
     /* Banner card styles */
     .banner-card {
-      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-      color: #000;
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      color: #fff;
       border: none;
       border-radius: 10px;
     }
@@ -99,7 +99,7 @@
       margin-bottom: 0;
     }
     
-    /* Button container: vertical layout com margin-right reduzida */
+    /* Container dos botões: empilhados verticalmente com margin-right reduzida */
     .button-container {
       display: flex;
       flex-direction: column;
@@ -113,7 +113,7 @@
       margin-bottom: 0;
     }
     
-    /* Button styles with transition */
+    /* Estilos dos botões com transição */
     .start-task,
     .confirm-task {
       white-space: nowrap;
@@ -124,7 +124,7 @@
       transform: scale(1.05);
     }
     
-    /* Botão Start Task: utiliza a classe btn-primary padrão do Bootstrap 5 */
+    /* Botão Start Task: usa a classe padrão btn-primary do Bootstrap 5 */
     
     /* Botão Confirm Task: verde moderno e discreto */
     .btn-modern-green {
@@ -140,7 +140,7 @@
     
     /* Dropdown styling */
     .dropdown-toggle::after {
-      display: none; /* Remove default arrow */
+      display: none;
     }
     .btn-link.dropdown-toggle,
     .btn-link.dropdown-toggle:hover,
@@ -160,7 +160,7 @@
       right: 10px;
     }
     
-    /* Media query to increase button size on small screens */
+    /* Media query para aumentar os botões em dispositivos móveis */
     @media (max-width: 576px) {
       .start-task, .confirm-task {
         font-size: 1rem;
@@ -172,7 +172,9 @@
 <body>
   
 <div class="container mt-4">
-  <!-- Banner card above the table -->
+  <h2 class="text-center mb-4">Task List</h2>
+  
+  <!-- Banner card abaixo do título "Task List" -->
   <div class="card banner-card mb-4">
     <div class="card-body">
       <div class="banner-icon">
@@ -187,13 +189,11 @@
     </div>
   </div>
   
-  <h2 class="text-center mb-4">Task List</h2>
-  
-  <!-- Bootstrap Table (initialized manually) -->
+  <!-- Task List Table -->
   <table id="task-table"></table>
 </div>
   
-<!-- jQuery, Bootstrap Table JS and Bootstrap Bundle with Popper -->
+<!-- jQuery, Bootstrap Table JS e Bootstrap Bundle com Popper -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -207,7 +207,7 @@
       { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
     
-    // Formatter to render a card with a shortened description if >25 characters
+    // Formatter para renderizar o card com a descrição abreviada se >25 caracteres
     function cardFormatter(value, row, index) {
       let shortDescription = row.description;
       if (shortDescription.length > 25) {
@@ -216,7 +216,7 @@
       
       return `
         <div class="card shadow-sm mb-3">
-          <!-- Dropdown menu on the top right -->
+          <!-- Dropdown menu no canto superior direito -->
           <div class="dropdown">
             <button class="btn btn-link p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               &#x22EE;
@@ -246,18 +246,18 @@
               <p class="reward">Reward: $${row.reward.toFixed(5)}</p>
             </div>
             <div class="button-container">
-              <!-- Start Task button: uses standard btn-primary -->
+              <!-- Botão Start Task: utiliza o btn-primary padrão -->
               <button class="btn btn-primary btn-sm start-task" data-id="${row.id}" title="Start Task">
                 <i class="bi bi-play-fill"></i> Start Task
               </button>
-              <!-- Confirm Task button will be added dynamically with btn-modern-green -->
+              <!-- O botão Confirm Task será adicionado dinamicamente com btn-modern-green -->
             </div>
           </div>
         </div>
       `;
     }
     
-    // Initialize Bootstrap Table with specified settings
+    // Inicializa o Bootstrap Table definindo apenas a classe "table"
     $('#task-table').bootstrapTable({
       classes: "table",
       data: tasks,
@@ -270,17 +270,17 @@
       }]
     });
     
-    // Event for the Start Task button
+    // Evento para o botão de iniciar tarefa (Start Task)
     $(document).on('click', '.start-task', function(e) {
       e.preventDefault();
       const $startBtn = $(this);
       const taskId = $startBtn.data('id');
       const $buttonContainer = $startBtn.parent();
       
-      // Remove the title attribute to prevent tooltip display
+      // Remove o atributo title para não mostrar tooltip
       $startBtn.removeAttr('title');
       
-      // If the Confirm Task button doesn't exist, add it
+      // Se o botão de Confirm Task não existir, adiciona-o
       if ($buttonContainer.find('.confirm-task').length === 0) {
         const confirmButton = `
           <button class="btn btn-modern-green btn-sm confirm-task" data-id="${taskId}" title="Confirm Task">
@@ -291,19 +291,19 @@
       }
     });
     
-    // Event for the Confirm Task button
+    // Evento para o botão de confirmar tarefa (Confirm Task)
     $(document).on('click', '.confirm-task', function(e) {
       e.preventDefault();
       const $confirmBtn = $(this);
       const taskId = $confirmBtn.data('id');
       const task = tasks.find(t => t.id === taskId);
       alert("Task " + taskId + " confirmed! You earned $" + task.reward.toFixed(5));
-      // Disable both buttons to prevent duplicate actions
+      // Desabilita ambos os botões para evitar ações duplicadas
       $confirmBtn.prop('disabled', true);
       $confirmBtn.siblings('.start-task').prop('disabled', true);
     });
     
-    // Event delegation for dropdown buttons
+    // Eventos para os botões do dropdown
     $(document).on('click', '.edit-task', function(e) {
       e.preventDefault();
       const taskId = $(this).data('id');
