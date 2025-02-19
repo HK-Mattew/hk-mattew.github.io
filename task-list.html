@@ -19,9 +19,18 @@
       font-family: 'Roboto', sans-serif;
     }
     
-    /* Banner card styles com fundo roxo moderno */
+    /* Animação do fundo do banner */
+    @keyframes backgroundMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Banner card styles com fundo roxo moderno e animação */
     .banner-card {
       background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
+      background-size: 200% 200%;
+      animation: backgroundMove 10s ease infinite;
       color: #fff;
       border: none;
       border-radius: 10px;
@@ -29,9 +38,10 @@
     .banner-card .card-title {
       margin-bottom: 0.5rem;
     }
+    /* Link clicável sem decoração */
     .banner-card a {
-      color: #FFC107; /* Modern yellow */
-      text-decoration: none; /* Decoração removida */
+      color: #0d6efd; /* Cor primária do Bootstrap 5 */
+      text-decoration: none;
     }
     .banner-card a:hover {
       text-decoration: none;
@@ -63,7 +73,7 @@
       background-color: transparent !important;
     }
     
-    /* Card styles with subtle gradient */
+    /* Card styles for tasks with subtle gradient */
     .card {
       background: linear-gradient(135deg, #ffffff, #f8f9fa);
       border: 1px solid #ddd;
@@ -99,7 +109,7 @@
       margin-bottom: 0;
     }
     
-    /* Container dos botões: empilhados verticalmente com margin-right reduzida */
+    /* Button container: vertical layout with small right margin */
     .button-container {
       display: flex;
       flex-direction: column;
@@ -124,7 +134,7 @@
       transform: scale(1.05);
     }
     
-    /* Botão Start Task: utiliza o btn-primary padrão do Bootstrap 5 */
+    /* Botão Start Task: padrão btn-primary do Bootstrap 5 */
     
     /* Botão Confirm Task: verde moderno e discreto */
     .btn-modern-green {
@@ -160,7 +170,7 @@
       right: 10px;
     }
     
-    /* Media query para aumentar os botões em dispositivos móveis */
+    /* Media query for increasing button size on small screens */
     @media (max-width: 576px) {
       .start-task, .confirm-task {
         font-size: 1rem;
@@ -174,7 +184,7 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Task List</h2>
   
-  <!-- Banner card logo abaixo do título "Task List" -->
+  <!-- Banner card positioned below the title -->
   <div class="card banner-card mb-4">
     <div class="card-body">
       <div class="banner-icon">
@@ -195,7 +205,7 @@
   <table id="task-table"></table>
 </div>
   
-<!-- jQuery, Bootstrap Table JS e Bootstrap Bundle com Popper -->
+<!-- jQuery, Bootstrap Table JS, and Bootstrap Bundle with Popper -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -209,7 +219,7 @@
       { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
     
-    // Formatter para renderizar o card com a descrição abreviada se >25 caracteres
+    // Formatter to render a card with a shortened description if >25 characters
     function cardFormatter(value, row, index) {
       let shortDescription = row.description;
       if (shortDescription.length > 25) {
@@ -218,7 +228,7 @@
       
       return `
         <div class="card shadow-sm mb-3">
-          <!-- Dropdown menu no canto superior direito -->
+          <!-- Dropdown menu on the top right -->
           <div class="dropdown">
             <button class="btn btn-link p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               &#x22EE;
@@ -248,18 +258,18 @@
               <p class="reward">Reward: $${row.reward.toFixed(5)}</p>
             </div>
             <div class="button-container">
-              <!-- Botão Start Task: utiliza o btn-primary padrão -->
+              <!-- Start Task button using standard btn-primary -->
               <button class="btn btn-primary btn-sm start-task" data-id="${row.id}" title="Start Task">
                 <i class="bi bi-play-fill"></i> Start Task
               </button>
-              <!-- O botão Confirm Task será adicionado dinamicamente com btn-modern-green -->
+              <!-- Confirm Task button will be added dynamically with btn-modern-green -->
             </div>
           </div>
         </div>
       `;
     }
     
-    // Inicializa o Bootstrap Table definindo apenas a classe "table" e desativando a pesquisa
+    // Initialize Bootstrap Table with the specified settings (search disabled)
     $('#task-table').bootstrapTable({
       classes: "table",
       data: tasks,
@@ -272,17 +282,17 @@
       }]
     });
     
-    // Evento para o botão de iniciar tarefa (Start Task)
+    // Event for the Start Task button
     $(document).on('click', '.start-task', function(e) {
       e.preventDefault();
       const $startBtn = $(this);
       const taskId = $startBtn.data('id');
       const $buttonContainer = $startBtn.parent();
       
-      // Remove o atributo title para não mostrar tooltip
+      // Remove the title attribute to avoid tooltip display
       $startBtn.removeAttr('title');
       
-      // Se o botão de Confirm Task não existir, adiciona-o
+      // If the Confirm Task button doesn't exist, add it
       if ($buttonContainer.find('.confirm-task').length === 0) {
         const confirmButton = `
           <button class="btn btn-modern-green btn-sm confirm-task" data-id="${taskId}" title="Confirm Task">
@@ -293,19 +303,19 @@
       }
     });
     
-    // Evento para o botão de confirmar tarefa (Confirm Task)
+    // Event for the Confirm Task button
     $(document).on('click', '.confirm-task', function(e) {
       e.preventDefault();
       const $confirmBtn = $(this);
       const taskId = $confirmBtn.data('id');
       const task = tasks.find(t => t.id === taskId);
       alert("Task " + taskId + " confirmed! You earned $" + task.reward.toFixed(5));
-      // Desabilita ambos os botões para evitar ações duplicadas
+      // Disable both buttons to prevent duplicate actions
       $confirmBtn.prop('disabled', true);
       $confirmBtn.siblings('.start-task').prop('disabled', true);
     });
     
-    // Eventos para os botões do dropdown
+    // Events for dropdown buttons
     $(document).on('click', '.edit-task', function(e) {
       e.preventDefault();
       const taskId = $(this).data('id');
