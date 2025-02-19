@@ -19,7 +19,6 @@
         }
 
         .nav-item {
-            flex: 1;
             text-align: center;
         }
 
@@ -55,7 +54,8 @@
             display: flex;
             justify-content: space-around;
             width: 100%;
-            flex-wrap: nowrap; /* Evita que os itens se empilhem nas telas pequenas */
+            padding: 0;
+            margin: 0;
         }
 
         /* Estilo de ativação da seção */
@@ -67,12 +67,12 @@
         /* Ajuste para dispositivos móveis */
         @media (max-width: 576px) {
             .navbar-nav {
-                flex-wrap: wrap; /* Permite que as seções se ajustem corretamente nas telas pequenas */
+                flex-wrap: nowrap; /* Impede que as seções se empilhem */
                 justify-content: space-evenly; /* Garante uma distribuição mais balanceada */
             }
 
             .nav-item {
-                flex: none; /* Impede que os itens se expandam e ocupem o mesmo tamanho */
+                flex: 1; /* Garante que cada item ocupe a mesma quantidade de espaço */
                 width: 25%; /* Ajusta o tamanho de cada item na tela pequena */
             }
 
