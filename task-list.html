@@ -19,63 +19,53 @@
       font-family: 'Roboto', sans-serif;
     }
     
-    /* Keyframes for moving background (existing effect) */
-    @keyframes backgroundMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    /* Keyframes for the subtle moving overlay */
+    @keyframes subtleMove {
+      0% { transform: translateX(-5%); }
+      50% { transform: translateX(5%); }
+      100% { transform: translateX(-5%); }
     }
     
-    /* Keyframes for the shine effect */
-    @keyframes shine {
-      0% { left: -100%; }
-      50% { left: 100%; }
-      100% { left: 100%; }
-    }
-    
-    /* Banner card styles with modern purple gradient and subtle shine effect */
+    /* Banner card styles with a modern purple gradient */
     .banner-card {
       position: relative;
       background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
-      background-size: 300% 300%;
-      animation: backgroundMove 5s ease infinite;
       color: #fff;
       border: none;
       border-radius: 10px;
-      overflow: hidden;
+      overflow: hidden; /* Ensures overlay does not extend outside */
     }
-    /* Pseudo-element for the shine effect with reduced width and lower opacity */
-    .banner-card::after {
+    /* Pseudo-element for the subtle moving overlay */
+    .banner-card::before {
       content: "";
       position: absolute;
       top: 0;
-      left: -100%;
-      width: 10%;
+      left: 0;
+      width: 100%;
       height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
-      transform: skewX(-15deg);
-      animation: shine 3s ease-in-out infinite;
+      background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+      animation: subtleMove 10s ease-in-out infinite;
       pointer-events: none;
+      z-index: 0;
     }
     
+    .banner-card .card-body {
+      position: relative;
+      z-index: 1; /* Ensure content stays above the overlay */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .banner-card .card-title {
       margin-bottom: 0.5rem;
     }
-    /* Link in banner remains in modern yellow and without underline */
+    /* Link in the banner remains yellow and without underline */
     .banner-card a {
       color: #FFC107;
       text-decoration: none;
     }
     .banner-card a:hover {
       text-decoration: none;
-    }
-    /* Banner layout: icon on the left and text on the right */
-    .banner-card .card-body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      z-index: 1;
     }
     .banner-icon {
       margin-right: 1rem;
@@ -98,7 +88,7 @@
       background-color: transparent !important;
     }
     
-    /* Card styles for tasks with subtle gradient */
+    /* Task card styles */
     .card {
       background: linear-gradient(135deg, #ffffff, #f8f9fa);
       border: 1px solid #ddd;
@@ -108,7 +98,7 @@
     }
     .card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
     
     /* Card body layout */
@@ -159,7 +149,7 @@
       transform: scale(1.05);
     }
     
-    /* Start Task button: using standard btn-primary */
+    /* Start Task button: uses the standard Bootstrap btn-primary */
     
     /* Confirm Task button: modern green */
     .btn-modern-green {
@@ -187,7 +177,7 @@
     }
     .dropdown-menu {
       border-radius: 0.5rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     .dropdown {
       position: absolute;
@@ -195,7 +185,7 @@
       right: 10px;
     }
     
-    /* Media query to increase button size on small screens */
+    /* Media query for increasing button size on small screens */
     @media (max-width: 576px) {
       .start-task, .confirm-task {
         font-size: 1rem;
@@ -294,7 +284,7 @@
       `;
     }
     
-    // Initialize Bootstrap Table with specified settings (search disabled)
+    // Initialize the Bootstrap Table with specified settings (search disabled)
     $('#task-table').bootstrapTable({
       classes: "table",
       data: tasks,
@@ -340,7 +330,7 @@
       $confirmBtn.siblings('.start-task').prop('disabled', true);
     });
     
-    // Events for dropdown buttons
+    // Dropdown button events
     $(document).on('click', '.edit-task', function(e) {
       e.preventDefault();
       const taskId = $(this).data('id');
