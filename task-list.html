@@ -48,11 +48,11 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
     
-    /* Card body layout - agora com alinhamento vertical centralizado */
+    /* Card body layout */
     .card-body {
       display: flex;
       justify-content: space-between;
-      align-items: center;  /* Centraliza verticalmente */
+      align-items: center;
       padding: 1.5rem;
     }
     .card-title {
@@ -71,12 +71,12 @@
       margin-bottom: 0;
     }
     
-    /* Container dos botões - empilhados verticalmente e afastados da borda direita */
+    /* Container dos botões: empilhados verticalmente com margin-right reduzido */
     .button-container {
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      margin-right: 20px;
+      margin-right: 3px;  /* Alterado de 20px para 3px */
     }
     .button-container > button {
       margin-bottom: 0.5rem;
@@ -166,7 +166,7 @@
       { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
     
-    // Formatter para renderizar o card com abreviação da descrição se >25 caracteres
+    // Formatter que renderiza o card com abreviação da descrição se >25 caracteres
     function cardFormatter(value, row, index) {
       let shortDescription = row.description;
       if (shortDescription.length > 25) {
