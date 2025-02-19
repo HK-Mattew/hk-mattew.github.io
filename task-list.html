@@ -19,10 +19,10 @@
       font-family: 'Roboto', sans-serif;
     }
     
-    /* Banner card styles com fundo claro e moderno */
+    /* Banner card styles com fundo roxo moderno */
     .banner-card {
-      background: linear-gradient(135deg, #a1c4fd, #c2e9fb) !important;
-      color: #000;
+      background: linear-gradient(135deg, #8e2de2, #4a00e0) !important;
+      color: #fff;
       border: none;
       border-radius: 10px;
     }
@@ -99,7 +99,7 @@
       margin-bottom: 0;
     }
     
-    /* Container dos botões: empilhados verticalmente com margin-right reduzida */
+    /* Container dos botões: vertical com margin-right reduzida */
     .button-container {
       display: flex;
       flex-direction: column;
@@ -113,7 +113,7 @@
       margin-bottom: 0;
     }
     
-    /* Estilos dos botões com transição */
+    /* Button styles with transition */
     .start-task,
     .confirm-task {
       white-space: nowrap;
@@ -257,12 +257,12 @@
       `;
     }
     
-    // Inicializa o Bootstrap Table definindo apenas a classe "table"
+    // Inicializa o Bootstrap Table definindo apenas a classe "table" e desativando a pesquisa
     $('#task-table').bootstrapTable({
       classes: "table",
       data: tasks,
       pagination: false,
-      search: false,  // Pesquisa desativada
+      search: false,
       showHeader: false,
       columns: [{
         field: 'id',
