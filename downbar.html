@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barra de Navegação Inferior Moderna</title>
-    <!-- Link para o Bootstrap 5 -->
+    <title>Modern Bottom Navigation Bar</title>
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Link para os ícones do Google -->
+    <!-- Google Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        /* Estilo da barra de navegação inferior */
+        /* Navbar Styling */
         .navbar {
-            background: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente */
-            backdrop-filter: blur(10px); /* Efeito vidro fosco */
-            border-top: 1px solid rgba(255, 255, 255, 0.2); /* Linha superior sutil */
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            height: 55px; /* Ajuste na altura */
+            height: 55px;
             padding: 0;
             transition: all 0.3s ease-in-out;
         }
@@ -31,11 +31,13 @@
         }
 
         .nav-item {
-            flex: 1; /* Distribui igualmente o espaço */
+            flex: 1;
             text-align: center;
-            position: relative; /* Necessário para o indicador */
+            position: relative;
+            padding: 5px;
         }
 
+        /* Rounded effect */
         .nav-link {
             display: flex;
             flex-direction: column;
@@ -45,29 +47,36 @@
             text-decoration: none;
             padding: 8px 0;
             transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
+            border-radius: 12px; /* Rounded sections */
+            background-color: rgba(240, 240, 240, 0.6);
         }
 
         .nav-link:hover {
             color: #0056b3;
-            transform: scale(1.05); /* Pequeno efeito de aumento ao passar o mouse */
+            transform: scale(1.05);
+            background-color: rgba(220, 220, 220, 0.8);
         }
 
-        /* Ícones */
         .material-icons {
             font-size: 26px;
             transition: transform 0.2s ease-in-out;
         }
 
-        .nav-link.active .material-icons {
+        .nav-link.active {
+            background-color: rgba(0, 123, 255, 0.1);
             color: #007bff;
-            transform: scale(1.2); /* Ícone cresce levemente quando ativo */
         }
 
-        /* Indicador de seção ativa */
+        .nav-link.active .material-icons {
+            color: #007bff;
+            transform: scale(1.2);
+        }
+
+        /* Animated indicator */
         .navbar-nav .nav-item .nav-link.active::after {
             content: "";
             position: absolute;
-            bottom: 0;
+            bottom: 5px;
             left: 50%;
             width: 50%;
             height: 3px;
@@ -81,7 +90,7 @@
             width: 70%;
         }
 
-        /* Ajuste para telas menores */
+        /* Responsive adjustments */
         @media (max-width: 576px) {
             .navbar {
                 height: 50px;
@@ -93,50 +102,50 @@
             }
 
             .material-icons {
-                font-size: 24px; /* Ícones um pouco menores */
+                font-size: 24px;
             }
         }
     </style>
 </head>
 <body class="bg-light">
 
-    <!-- Barra de Navegação Inferior -->
+    <!-- Bottom Navigation Bar -->
     <nav class="navbar navbar-expand fixed-bottom">
         <div class="container-fluid">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
                     <a class="nav-link text-center active" href="#" id="home">
                         <span class="material-icons">home</span>
-                        <div>Início</div>
+                        <div>Home</div>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-center" href="#" id="search">
                         <span class="material-icons">search</span>
-                        <div>Buscar</div>
+                        <div>Search</div>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-center" href="#" id="notifications">
                         <span class="material-icons">notifications</span>
-                        <div>Notificações</div>
+                        <div>Notifications</div>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-center" href="#" id="profile">
                         <span class="material-icons">person</span>
-                        <div>Perfil</div>
+                        <div>Profile</div>
                     </a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <!-- Scripts do Bootstrap -->
+    <!-- Bootstrap Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     <script>
-        // Ativação das seções
+        // Activate Sections
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function () {
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
