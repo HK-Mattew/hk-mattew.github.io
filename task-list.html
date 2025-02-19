@@ -93,26 +93,26 @@
     }
     .start-task:hover:not(:disabled),
     .confirm-task:hover:not(:disabled) {
-      background-color: #0069d9;
       transform: scale(1.05);
     }
     
-    /* Cores dos botões: Start Task com tom discreto (btn-secondary) e Confirm Task em btn-info */
-    .btn-secondary {
-      background-color: #6c757d;
-      border-color: #6c757d;
+    /* Botão Start Task com gradiente azul */
+    .btn-blue-gradient {
+      background: linear-gradient(45deg, #0d6efd, #0b5ed7);
+      border: none;
       color: #fff;
     }
-    .btn-secondary:hover {
-      background-color: #5a6268;
-      border-color: #545b62;
+    .btn-blue-gradient:hover:not(:disabled) {
+      background: linear-gradient(45deg, #0b5ed7, #0d6efd);
     }
+    
+    /* Botão Confirm Task mantendo btn-info */
     .btn-info {
       background-color: #17a2b8;
       border-color: #17a2b8;
       color: #fff;
     }
-    .btn-info:hover {
+    .btn-info:hover:not(:disabled) {
       background-color: #138496;
       border-color: #117a8b;
     }
@@ -203,8 +203,8 @@
               <p class="reward">Reward: $${row.reward.toFixed(5)}</p>
             </div>
             <div class="button-container">
-              <!-- Botão Start Task com cor discreta (btn-secondary) -->
-              <button class="btn btn-secondary btn-sm start-task" data-id="${row.id}" title="Start Task">
+              <!-- Botão Start Task com gradiente azul -->
+              <button class="btn btn-blue-gradient btn-sm start-task" data-id="${row.id}" title="Start Task">
                 <i class="bi bi-play-fill"></i> Start Task
               </button>
               <!-- O botão Confirm Task será adicionado aqui dinamicamente -->
