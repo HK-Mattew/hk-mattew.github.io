@@ -9,16 +9,17 @@
     <!-- Link para os ícones do Google -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        /* Estilização geral da barra de navegação */
+        /* Estilo da barra de navegação inferior */
         .navbar {
-            background-color: #ffffff;
-            border-top: 1px solid #e0e0e0;
+            background: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente */
+            backdrop-filter: blur(10px); /* Efeito vidro fosco */
+            border-top: 1px solid rgba(255, 255, 255, 0.2); /* Linha superior sutil */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            height: 55px; /* Reduzindo a altura da barra */
+            height: 55px; /* Ajuste na altura */
             padding: 0;
+            transition: all 0.3s ease-in-out;
         }
 
-        /* Contêiner flexível para os itens de navegação */
         .navbar-nav {
             display: flex;
             justify-content: space-between;
@@ -26,16 +27,15 @@
             width: 100%;
             padding: 0;
             margin: 0;
-            flex-wrap: nowrap; /* Garante que os itens não fiquem em linhas diferentes */
+            flex-wrap: nowrap;
         }
 
-        /* Configuração dos itens individuais da barra */
         .nav-item {
             flex: 1; /* Distribui igualmente o espaço */
             text-align: center;
+            position: relative; /* Necessário para o indicador */
         }
 
-        /* Links dentro da barra de navegação */
         .nav-link {
             display: flex;
             flex-direction: column;
@@ -43,31 +43,57 @@
             font-size: 14px;
             color: #6c757d;
             text-decoration: none;
-            padding: 5px 0;
+            padding: 8px 0;
+            transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
         }
 
-        .nav-link:hover, .nav-link.active {
-            color: #007bff;
+        .nav-link:hover {
+            color: #0056b3;
+            transform: scale(1.05); /* Pequeno efeito de aumento ao passar o mouse */
         }
 
         /* Ícones */
         .material-icons {
-            font-size: 22px; /* Ajuste do tamanho do ícone */
+            font-size: 26px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .nav-link.active .material-icons {
+            color: #007bff;
+            transform: scale(1.2); /* Ícone cresce levemente quando ativo */
+        }
+
+        /* Indicador de seção ativa */
+        .navbar-nav .nav-item .nav-link.active::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 50%;
+            height: 3px;
+            background-color: #007bff;
+            border-radius: 3px;
+            transform: translateX(-50%);
+            transition: width 0.3s ease-in-out;
+        }
+
+        .navbar-nav .nav-item .nav-link:hover::after {
+            width: 70%;
         }
 
         /* Ajuste para telas menores */
         @media (max-width: 576px) {
             .navbar {
-                height: 50px; /* Ajuste menor para dispositivos pequenos */
+                height: 50px;
             }
 
             .nav-link {
-                font-size: 12px; /* Redução do tamanho da fonte */
-                padding: 3px 0;
+                font-size: 12px;
+                padding: 6px 0;
             }
 
             .material-icons {
-                font-size: 20px; /* Ícones um pouco menores */
+                font-size: 24px; /* Ícones um pouco menores */
             }
         }
     </style>
