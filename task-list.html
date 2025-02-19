@@ -27,7 +27,7 @@
       border: none !important;
     }
     
-    /* Remove hover background for table rows */
+    /* Garante que não haja fundo de hover nas linhas */
     .table tbody tr:hover,
     .table-hover tbody tr:hover,
     .table tbody tr:hover > td,
@@ -48,11 +48,11 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
     
-    /* Card body layout */
+    /* Card body: dividindo em duas colunas (texto e botões) */
     .card-body {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       padding: 1.5rem;
     }
     .card-title {
@@ -71,22 +71,26 @@
       margin-bottom: 0;
     }
     
-    /* Botão de iniciar tarefa */
-    .start-task {
-      white-space: nowrap;
-      transition: background-color 0.2s, transform 0.2s;
+    /* Botões empilhados verticalmente */
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
     }
-    .start-task:hover:not(:disabled) {
-      background-color: #0069d9;
-      transform: scale(1.05);
+    .button-container > button {
+      margin-bottom: 0.5rem;
+    }
+    .button-container > button:last-child {
+      margin-bottom: 0;
     }
     
-    /* Botão de confirmar tarefa */
+    /* Botões com transição */
+    .start-task,
     .confirm-task {
-      margin-left: 0.5rem;
       white-space: nowrap;
       transition: background-color 0.2s, transform 0.2s;
     }
+    .start-task:hover:not(:disabled),
     .confirm-task:hover:not(:disabled) {
       background-color: #0069d9;
       transform: scale(1.05);
@@ -139,7 +143,7 @@
       { id: 4, title: "Study JavaScript", description: "Review closures and promises", reward: 0.00032 }
     ];
     
-    // Formatter que renderiza o card com abreviação da descrição se maior que 25 caracteres
+    // Formatter para renderizar o card com abreviação da descrição se >25 caracteres
     function cardFormatter(value, row, index) {
       let shortDescription = row.description;
       if (shortDescription.length > 25) {
@@ -171,16 +175,18 @@
               </li>
             </ul>
           </div>
-          <div class="card-body">
+          <div class="card-body d-flex justify-content-between align-items-start">
             <div>
               <h5 class="card-title">${row.title}</h5>
               <p class="card-text">${shortDescription}</p>
               <p class="reward">Reward: $${row.reward.toFixed(5)}</p>
             </div>
-            <!-- Botão de Start Task -->
-            <button class="btn btn-success btn-sm start-task" data-id="${row.id}" data-bs-toggle="tooltip" title="Start Task">
-              <i class="bi bi-play-fill"></i> Start Task
-            </button>
+            <div class="button-container">
+              <button class="btn btn-success btn-sm start-task" data-id="${row.id}" data-bs-toggle="tooltip" title="Start Task">
+                <i class="bi bi-play-fill"></i> Start Task
+              </button>
+              <!-- O botão de Confirm Task será adicionado aqui dinamicamente -->
+            </div>
           </div>
         </div>
       `;
@@ -204,17 +210,15 @@
       e.preventDefault();
       const $startBtn = $(this);
       const taskId = $startBtn.data('id');
-      const $cardBody = $startBtn.closest('.card-body');
-      
+      const $buttonContainer = $startBtn.parent(); // Container dos botões
       // Se o botão de confirmar ainda não existir, adiciona-o
-      if ($cardBody.find('.confirm-task').length === 0) {
+      if ($buttonContainer.find('.confirm-task').length === 0) {
         const confirmButton = `
           <button class="btn btn-primary btn-sm confirm-task" data-id="${taskId}" data-bs-toggle="tooltip" title="Confirm Task">
             <i class="bi bi-check-lg"></i> Confirm Task
           </button>
         `;
-        $startBtn.after(' ' + confirmButton);
-        
+        $buttonContainer.append(confirmButton);
         // Re-inicializa os tooltips para os novos elementos
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -230,7 +234,7 @@
       const taskId = $confirmBtn.data('id');
       const task = tasks.find(t => t.id === taskId);
       alert("Task " + taskId + " confirmed! You earned $" + task.reward.toFixed(5));
-      // Desabilita ambos os botões para evitar ações duplicadas
+      // Desabilita os botões para evitar ações duplicadas
       $confirmBtn.prop('disabled', true);
       $confirmBtn.siblings('.start-task').prop('disabled', true);
     });
