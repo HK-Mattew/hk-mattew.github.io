@@ -21,7 +21,7 @@
     
     /* Banner card styles com fundo roxo moderno */
     .banner-card {
-      background: linear-gradient(135deg, #8e2de2, #4a00e0) !important;
+      background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
       color: #fff;
       border: none;
       border-radius: 10px;
@@ -31,7 +31,7 @@
     }
     .banner-card a {
       color: #FFC107; /* Modern yellow */
-      text-decoration: underline;
+      text-decoration: none; /* Remove underline */
     }
     .banner-card a:hover {
       text-decoration: none;
@@ -99,7 +99,7 @@
       margin-bottom: 0;
     }
     
-    /* Container dos botões: vertical com margin-right reduzida */
+    /* Button container: vertical layout com margin-right reduzida */
     .button-container {
       display: flex;
       flex-direction: column;
@@ -183,7 +183,9 @@
       <div>
         <h4 class="card-title mb-2">Advertise Your Task!</h4>
         <p class="card-text mb-0">
-          <a href="https://example.com/advertise">Click here to post your task and get it featured!</a>
+          <a href="https://example.com/advertise">
+            Click here to post your task and get it featured! <i class="bi bi-arrow-right"></i>
+          </a>
         </p>
       </div>
     </div>
@@ -257,7 +259,7 @@
       `;
     }
     
-    // Inicializa o Bootstrap Table definindo apenas a classe "table" e desativando a pesquisa
+    // Inicializa o Bootstrap Table sem pesquisa
     $('#task-table').bootstrapTable({
       classes: "table",
       data: tasks,
