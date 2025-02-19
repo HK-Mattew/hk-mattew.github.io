@@ -46,7 +46,7 @@
         <h3 class="mb-3 text-center">Select Task Type</h3>
 
         <div class="dropdown w-100">
-            <button class="btn btn-primary w-100 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-light w-100 dropdown-toggle border" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-list-task"></i> Choose an option
             </button>
             <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
@@ -81,7 +81,7 @@
                     $("#dropdownMenuButton").html(`<i class="${iconClass}"></i> ${taskText}`);
 
                     $("#content .card-body").fadeOut(200, function () {
-                        $(this).html('<div class="loading"><div class="spinner-border text-primary" role="status"></div> <p>Loading...</p></div>').fadeIn(200);
+                        $(this).html('<div class="loading"><div class="spinner-border text-secondary" role="status"></div> <p>Loading...</p></div>').fadeIn(200);
                     });
 
                     setTimeout(function () {
