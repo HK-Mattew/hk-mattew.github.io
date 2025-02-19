@@ -19,10 +19,10 @@
       font-family: 'Roboto', sans-serif;
     }
     
-    /* Banner card styles com fundo vibrante forçado */
+    /* Banner card styles com fundo claro e moderno */
     .banner-card {
-      background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
-      color: #fff;
+      background: linear-gradient(135deg, #a1c4fd, #c2e9fb) !important;
+      color: #000;
       border: none;
       border-radius: 10px;
     }
@@ -99,7 +99,7 @@
       margin-bottom: 0;
     }
     
-    /* Button container: vertical layout com margin-right reduzida */
+    /* Container dos botões: empilhados verticalmente com margin-right reduzida */
     .button-container {
       display: flex;
       flex-direction: column;
@@ -113,7 +113,7 @@
       margin-bottom: 0;
     }
     
-    /* Button styles with transition */
+    /* Estilos dos botões com transição */
     .start-task,
     .confirm-task {
       white-space: nowrap;
@@ -174,7 +174,7 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Task List</h2>
   
-  <!-- Banner card logo abaixo do título "Task List" -->
+  <!-- Banner card abaixo do título "Task List" -->
   <div class="card banner-card mb-4">
     <div class="card-body">
       <div class="banner-icon">
@@ -262,7 +262,7 @@
       classes: "table",
       data: tasks,
       pagination: false,
-      search: true,
+      search: false,  // Pesquisa desativada
       showHeader: false,
       columns: [{
         field: 'id',
