@@ -61,7 +61,7 @@
                 }
             }
 
-            // Check if "task" is set in URL and load content
+            // Load content if "task" is in the URL when the page loads
             var taskFromURL = getQueryParam("task");
             if (taskFromURL) {
                 loadContent(taskFromURL);
@@ -70,10 +70,6 @@
             $("#pageSelector").change(function () {
                 var selectedTask = $(this).val();
                 if (selectedTask) {
-                    // Update URL without reloading the page
-                    var newUrl = window.location.pathname + "?task=" + selectedTask;
-                    window.history.pushState({ path: newUrl }, "", newUrl);
-
                     loadContent(selectedTask);
                 }
             });
