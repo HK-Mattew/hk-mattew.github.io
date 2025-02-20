@@ -1,0 +1,41 @@
+<!-- Na sua página principal, por exemplo, dentro de um container -->
+<div id="iframeContainer"></div>
+
+<script>
+(function(){
+  // Função para criar e inserir o iframe
+  function createDynamicIframe() {
+    var currentSlug = "myIframeContent";  // Identificador único para este iframe
+    var iframe = document.createElement("iframe");
+    // URL do conteúdo do iframe (pode ser uma rota relativa ou absoluta)
+    iframe.src = "iframe-content.html";
+    iframe.style.width = "100%";
+    // Inicialmente, a altura é zero – ela será ajustada dinamicamente
+    iframe.style.height = "0px";
+    iframe.frameBorder = "0";
+    // Se necessário, defina sandbox (no mesmo domínio geralmente não é obrigatório)
+    // iframe.sandbox = "allow-scripts allow-same-origin";
+    
+    // Insere o iframe no container
+    var container = document.getElementById("iframeContainer");
+    container.appendChild(iframe);
+    
+    // Função que ajusta a altura do iframe quando recebe mensagem
+    function setIframeHeight(event) {
+      // Opcional: valide event.origin para segurança
+      if (event.data && event.data.slug === currentSlug) {
+        var height = event.data.height;
+        // Se height for <= 0, use um fallback (por exemplo, 400px); senão, adiciona um buffer, se desejar
+        height = height <= 0 ? 400 : height + 0;  // ajuste o buffer se necessário
+        iframe.style.height = height + "px";
+      }
+    }
+    
+    // Escuta por mensagens vindas do iframe
+    window.addEventListener("message", setIframeHeight, false);
+  }
+  
+  // Cria o iframe após o DOM estar carregado
+  document.addEventListener("DOMContentLoaded", createDynamicIframe);
+})();
+</script>
