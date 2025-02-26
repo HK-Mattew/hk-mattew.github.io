@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+
+</head>
+<body>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      var tgLink = urlParams.get('link');
+      window.Telegram.WebApp.openTelegramLink(tgLink);
+    </script>
+</body>
+</html>
