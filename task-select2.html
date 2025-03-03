@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task Type Navigation - Hideable Arrows</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    /* Scrollable navigation container with space for arrows */
+    .scrollable-nav {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      cursor: grab;
+      padding: 0 50px; /* space for arrows */
+      position: relative;
+    }
+    /* Hide scrollbar in Chrome, Safari, Opera */
+    .scrollable-nav::-webkit-scrollbar {
+      display: none;
+    }
+    /* Hide scrollbar in Firefox */
+    .scrollable-nav {
+      scrollbar-width: none;
+    }
+    /* Style for navigation buttons */
+    .nav-pills .nav-link {
+      white-space: nowrap;
+      border-radius: 50px;
+      margin-right: 10px;
+    }
+    .nav-pills .nav-link .badge {
+      margin-left: 5px;
+    }
+    /* Style for arrow buttons */
+    .scroll-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.8);
+      border: none;
+      z-index: 1;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .scroll-arrow:hover {
+      background: rgba(255, 255, 255, 1);
+    }
+    .scroll-arrow.left {
+      left: 5px;
+    }
+    .scroll-arrow.right {
+      right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container my-4">
+    <h5 class="text-center mb-3">Select Task Type</h5>
+    <div class="position-relative">
+      <!-- Left arrow button -->
+      <button id="scrollLeftBtn" class="scroll-arrow left"><i class="bi bi-chevron-left"></i></button>
+      <!-- Scrollable navigation area -->
+      <div class="scrollable-nav">
+        <div class="nav nav-pills flex-nowrap" id="taskTypeTabs" role="tablist">
+          <button class="nav-link active" id="all-tab" data-bs-toggle="pill" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true">
+            <i class="bi bi-list-task"></i> All <span class="badge bg-primary rounded-pill">10</span>
+          </button>
+          <button class="nav-link" id="channel-tab" data-bs-toggle="pill" data-bs-target="#channel" type="button" role="tab" aria-controls="channel" aria-selected="false">
+            <i class="bi bi-telegram"></i> Channel <span class="badge bg-primary rounded-pill">5</span>
+          </button>
+          <button class="nav-link" id="group-tab" data-bs-toggle="pill" data-bs-target="#group" type="button" role="tab" aria-controls="group" aria-selected="false">
+            <i class="bi bi-people"></i> Group <span class="badge bg-primary rounded-pill">3</span>
+          </button>
+          <button class="nav-link" id="bot-tab" data-bs-toggle="pill" data-bs-target="#bot" type="button" role="tab" aria-controls="bot" aria-selected="false">
+            <i class="bi bi-robot"></i> Bot <span class="badge bg-primary rounded-pill">7</span>
+          </button>
+          <!-- Add more buttons as needed -->
+        </div>
+      </div>
+      <!-- Right arrow button -->
+      <button id="scrollRightBtn" class="scroll-arrow right"><i class="bi bi-chevron-right"></i></button>
+    </div>
+
+    <!-- Tab content -->
+    <div class="tab-content mt-3" id="taskTypeTabsContent">
+      <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+        <p>Content for all tasks.</p>
+      </div>
+      <div class="tab-pane fade" id="channel" role="tabpanel" aria-labelledby="channel-tab">
+        <p>Content for channel tasks.</p>
+      </div>
+      <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
+        <p>Content for group tasks.</p>
+      </div>
+      <div class="tab-pane fade" id="bot" role="tabpanel" aria-labelledby="bot-tab">
+        <p>Content for bot tasks.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for scroll control and arrow visibility -->
+  <script>
+    const scrollableNav = document.querySelector('.scrollable-nav');
+    const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+    const scrollRightBtn = document.getElementById('scrollRightBtn');
+
+    function updateScrollButtons() {
+      // Hide left arrow if at the beginning
+      if (scrollableNav.scrollLeft <= 0) {
+        scrollLeftBtn.style.display = 'none';
+      } else {
+        scrollLeftBtn.style.display = 'flex';
+      }
+      // Hide right arrow if at the end
+      if (scrollableNav.scrollLeft + scrollableNav.clientWidth >= scrollableNav.scrollWidth - 1) {
+        scrollRightBtn.style.display = 'none';
+      } else {
+        scrollRightBtn.style.display = 'flex';
+      }
+    }
+    updateScrollButtons();
+
+    // Enable dragging for scrolling (desktop)
+    let isDown = false;
+    let startX;
+    let scrollStart;
+    scrollableNav.addEventListener('mousedown', (e) => {
+      isDown = true;
+      scrollableNav.classList.add('active');
+      startX = e.pageX - scrollableNav.offsetLeft;
+      scrollStart = scrollableNav.scrollLeft;
+    });
+    scrollableNav.addEventListener('mouseleave', () => {
+      isDown = false;
+      scrollableNav.classList.remove('active');
+    });
+    scrollableNav.addEventListener('mouseup', () => {
+      isDown = false;
+      scrollableNav.classList.remove('active');
+    });
+    scrollableNav.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scrollableNav.offsetLeft;
+      const walk = (x - startX) * 2; // adjust scrolling speed if needed
+      scrollableNav.scrollLeft = scrollStart - walk;
+      updateScrollButtons();
+    });
+    scrollableNav.addEventListener('scroll', updateScrollButtons);
+
+    // Click events for arrow buttons
+    scrollLeftBtn.addEventListener('click', () => {
+      scrollableNav.scrollBy({ left: -150, behavior: 'smooth' });
+    });
+    scrollRightBtn.addEventListener('click', () => {
+      scrollableNav.scrollBy({ left: 150, behavior: 'smooth' });
+    });
+  </script>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
