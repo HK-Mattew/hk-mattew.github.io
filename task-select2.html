@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Task Type Navigation - Hideable Arrows</title>
+  <title>Task Type Navigation - Click Event with Data Attributes</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -69,16 +69,16 @@
       <!-- Scrollable navigation area -->
       <div class="scrollable-nav">
         <div class="nav nav-pills flex-nowrap" id="taskTypeTabs" role="tablist">
-          <button class="nav-link active" id="all-tab" data-bs-toggle="pill" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true">
+          <button class="nav-link active" id="all-option" data-type="all">
             <i class="bi bi-list-task"></i> All <span class="badge bg-primary rounded-pill">10</span>
           </button>
-          <button class="nav-link" id="channel-tab" data-bs-toggle="pill" data-bs-target="#channel" type="button" role="tab" aria-controls="channel" aria-selected="false">
+          <button class="nav-link" id="channel-option" data-type="channel">
             <i class="bi bi-telegram"></i> Channel <span class="badge bg-primary rounded-pill">5</span>
           </button>
-          <button class="nav-link" id="group-tab" data-bs-toggle="pill" data-bs-target="#group" type="button" role="tab" aria-controls="group" aria-selected="false">
+          <button class="nav-link" id="group-option" data-type="group">
             <i class="bi bi-people"></i> Group <span class="badge bg-primary rounded-pill">3</span>
           </button>
-          <button class="nav-link" id="bot-tab" data-bs-toggle="pill" data-bs-target="#bot" type="button" role="tab" aria-controls="bot" aria-selected="false">
+          <button class="nav-link" id="bot-option" data-type="bot">
             <i class="bi bi-robot"></i> Bot <span class="badge bg-primary rounded-pill">7</span>
           </button>
           <!-- Add more buttons as needed -->
@@ -87,25 +87,9 @@
       <!-- Right arrow button -->
       <button id="scrollRightBtn" class="scroll-arrow right"><i class="bi bi-chevron-right"></i></button>
     </div>
-
-    <!-- Tab content -->
-    <div class="tab-content mt-3" id="taskTypeTabsContent">
-      <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
-        <p>Content for all tasks.</p>
-      </div>
-      <div class="tab-pane fade" id="channel" role="tabpanel" aria-labelledby="channel-tab">
-        <p>Content for channel tasks.</p>
-      </div>
-      <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
-        <p>Content for group tasks.</p>
-      </div>
-      <div class="tab-pane fade" id="bot" role="tabpanel" aria-labelledby="bot-tab">
-        <p>Content for bot tasks.</p>
-      </div>
-    </div>
   </div>
 
-  <!-- JavaScript for scroll control and arrow visibility -->
+  <!-- JavaScript for click events and scroll control -->
   <script>
     const scrollableNav = document.querySelector('.scrollable-nav');
     const scrollLeftBtn = document.getElementById('scrollLeftBtn');
@@ -161,6 +145,20 @@
     });
     scrollRightBtn.addEventListener('click', () => {
       scrollableNav.scrollBy({ left: 150, behavior: 'smooth' });
+    });
+
+    // Click event for each task type option using data-type attribute
+    document.querySelectorAll('.nav-link').forEach(button => {
+      button.addEventListener('click', function() {
+        // Remove active class from all buttons
+        document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+        // Add active class to the clicked button
+        this.classList.add('active');
+        // Handle click event using the data-type attribute
+        const selectedType = this.getAttribute('data-type');
+        console.log('Selected task type:', selectedType);
+        // You can add additional actions here as needed.
+      });
     });
   </script>
 
