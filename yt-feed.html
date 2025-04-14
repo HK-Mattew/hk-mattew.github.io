@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcio Guerra Canto - YouTube Feed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-evenly;
+            padding: 20px;
+        }
+        .video-card {
+            background-color: #fff;
+            width: 320px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .video-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .video-card:hover {
+            transform: translateY(-10px);
+        }
+        .video-card h3 {
+            margin: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+        .video-card a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            background-color: #0066cc;
+            color: white;
+            text-align: center;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .video-card a:hover {
+            background-color: #004a99;
+        }
+        .iframe-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+        }
+        .iframe-container iframe {
+            width: 80%;
+            height: 80%;
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Latest Videos from Marcio Guerra Canto</h1>
+        
+        <div class="video-card" onclick="showVideo('zl7p6iu8smE')">
+            <img src="https://i3.ytimg.com/vi/zl7p6iu8smE/hqdefault.jpg" alt="LADY GAGA Enlouquece o Público no COACHELLA 2025">
+            <h3>LADY GAGA Enlouquece o Público no COACHELLA 2025</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('szSPimnJApw')">
+            <img src="https://i4.ytimg.com/vi/szSPimnJApw/hqdefault.jpg" alt="BENSON BOONE e BRIAN MAY Surpreendem no Coachella - Bohemian Rhapsody">
+            <h3>BENSON BOONE e BRIAN MAY Surpreendem no Coachella - Bohemian Rhapsody</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('FK1gVFbeOws')">
+            <img src="https://i3.ytimg.com/vi/FK1gVFbeOws/hqdefault.jpg" alt="Marina Sena OURO de TOLO (Official Video React)">
+            <h3>Marina Sena OURO de TOLO (Official Video React)</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('M6_sC55MgiA')">
+            <img src="https://i2.ytimg.com/vi/M6_sC55MgiA/hqdefault.jpg" alt="KELLY CLARKSON Arrepia Cantando ARETHA FRANKLIN Ain&#39;t No Way">
+            <h3>KELLY CLARKSON Arrepia Cantando ARETHA FRANKLIN Ain&#39;t No Way</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('x0FiBLsVLX0')">
+            <img src="https://i1.ytimg.com/vi/x0FiBLsVLX0/hqdefault.jpg" alt="CYNTHIA ERIVO Se arrisca e Canta ARETHA FRANKLIN Ain&#39;t No Way">
+            <h3>CYNTHIA ERIVO Se arrisca e Canta ARETHA FRANKLIN Ain&#39;t No Way</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('Se5nP7UOl-w')">
+            <img src="https://i4.ytimg.com/vi/Se5nP7UOl-w/hqdefault.jpg" alt="ANITTA &amp; GILBERTO GIL Ao Vivo">
+            <h3>ANITTA &amp; GILBERTO GIL Ao Vivo</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('cc6mh_euK4o')">
+            <img src="https://i4.ytimg.com/vi/cc6mh_euK4o/hqdefault.jpg" alt="DUA LIPA Highway To Hell ACDC cover - Radical Optimism Tour Live Melbourne">
+            <h3>DUA LIPA Highway To Hell ACDC cover - Radical Optimism Tour Live Melbourne</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('ua6yCLNKidU')">
+            <img src="https://i2.ytimg.com/vi/ua6yCLNKidU/hqdefault.jpg" alt="MILEY CYRUS End Of The World">
+            <h3>MILEY CYRUS End Of The World</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('4qwlgvvIlPQ')">
+            <img src="https://i1.ytimg.com/vi/4qwlgvvIlPQ/hqdefault.jpg" alt="LAMENTO DE ISRAEL com LIS AVANCINI e PRISCILA OLLY">
+            <h3>LAMENTO DE ISRAEL com LIS AVANCINI e PRISCILA OLLY</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('RQ3fEBnaDg4')">
+            <img src="https://i3.ytimg.com/vi/RQ3fEBnaDg4/hqdefault.jpg" alt="TEDDY SWIMS Surpreende Cantando JAZZ de NAT KING COLE">
+            <h3>TEDDY SWIMS Surpreende Cantando JAZZ de NAT KING COLE</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('cwT6WPDxubw')">
+            <img src="https://i4.ytimg.com/vi/cwT6WPDxubw/hqdefault.jpg" alt="Filho da KELLY CLARKSON Cantando FRANK SINATRA é SINISTRO My Way">
+            <h3>Filho da KELLY CLARKSON Cantando FRANK SINATRA é SINISTRO My Way</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('HzVxgCqoyBY')">
+            <img src="https://i1.ytimg.com/vi/HzVxgCqoyBY/hqdefault.jpg" alt="Miley Cyrus e AS REFERÊNCIAS de Something Beautiful PART 2">
+            <h3>Miley Cyrus e AS REFERÊNCIAS de Something Beautiful PART 2</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('N-qenaqSgLg')">
+            <img src="https://i3.ytimg.com/vi/N-qenaqSgLg/hqdefault.jpg" alt="Christina Aguilera Canta Com FALHAS e SE VIRA no HOLLYWOOD BOWL">
+            <h3>Christina Aguilera Canta Com FALHAS e SE VIRA no HOLLYWOOD BOWL</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('_SmIwTMadeg')">
+            <img src="https://i4.ytimg.com/vi/_SmIwTMadeg/hqdefault.jpg" alt="Miley Cyrus SURPREENDE Com Something Beautiful PART 1">
+            <h3>Miley Cyrus SURPREENDE Com Something Beautiful PART 1</h3>
+        </div>
+        
+        <div class="video-card" onclick="showVideo('Ob7UGdTNGWA')">
+            <img src="https://i4.ytimg.com/vi/Ob7UGdTNGWA/hqdefault.jpg" alt="Benson Boone Arrasa com  Beautiful Things, CRY no Lollapalooza 2025">
+            <h3>Benson Boone Arrasa com  Beautiful Things, CRY no Lollapalooza 2025</h3>
+        </div>
+        
+    </div>
+
+    <!-- Iframe container for video -->
+    <div id="iframe-container" class="iframe-container">
+        <span class="close-btn" onclick="closeVideo()">X</span>
+        <iframe id="video-frame" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        // Function to show the video iframe
+        function showVideo(videoId) {
+            var iframe = document.getElementById('video-frame');
+            iframe.src = 'https://www.youtube.com/embed/' + videoId; // YouTube embed URL
+            var iframeContainer = document.getElementById('iframe-container');
+            iframeContainer.style.display = 'flex'; // Display the iframe container
+        }
+
+        // Function to close the video iframe
+        function closeVideo() {
+            var iframeContainer = document.getElementById('iframe-container');
+            var iframe = document.getElementById('video-frame');
+            iframe.src = ''; // Stop the video when closing
+            iframeContainer.style.display = 'none'; // Hide the iframe container
+        }
+    </script>
+</body>
+</html>
